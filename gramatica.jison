@@ -244,6 +244,10 @@ variables: defType id defLast defVarLast semicolon
 		  |id asignLast
 ;
 
+defLast: dosPuntos types igual E
+        |dosPuntos types
+;
+
 asignLast: varLast asignLastF
 		 | asignLastF
 ;
@@ -285,10 +289,7 @@ defType: let
 	    |const 
 ;
 
-defLast: dosPuntos types igual E
-        | igual E
-        |
-;
+
 
 types: number  typesList
       |boolean typesList

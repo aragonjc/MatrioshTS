@@ -1,0 +1,1 @@
+const gramatica = require('./gramatica')
