@@ -119,7 +119,7 @@ case 112:
 break;
 case 113:
 
-		this.$ = new Operation($$[$0-1],$$[$01],'--',0,0);
+		this.$ = new Operation($$[$0],null,'--',0,0);
 	
 break;
 case 114:

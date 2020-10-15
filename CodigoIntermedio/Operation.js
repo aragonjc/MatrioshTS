@@ -25,7 +25,7 @@ class Operation {
             case '%':
                 return this.mod(scope)
             case '--':
-                break;
+                return this.neg(scope)
         }
     }
 
@@ -133,6 +133,25 @@ class Operation {
         let newTemp = 't' + scope.getNewTemp()
         newTsObject.pointer = newTemp;
         newTsObject.code3d += newTemp + '=' + obj1.pointer + '%' + obj2.pointer + ';\n';
+        
+        return newTsObject;
+    }
+
+    neg(scope) {
+        let newTsObject;
+        const obj1 = this.nodeLeft.translate(scope)
+        if(obj1.type == 'number') {
+            this.type = 'number';
+        } else {
+            console.log("ERROR")
+            return null;
+        }
+
+        newTsObject = new tsObject(0,0,null,this.type);
+        newTsObject.code3d += obj1.code3d;
+        let newTemp = 't' + scope.getNewTemp()
+        newTsObject.pointer = newTemp;
+        newTsObject.code3d += newTemp + '= -' + obj1.pointer + ';\n';
         
         return newTsObject;
     }

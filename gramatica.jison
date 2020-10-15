@@ -333,7 +333,7 @@ exp: exp mas exp
 	}
 	| menos exp %prec unary
 	{
-		$$ = new Operation($1,$3,'--',0,0);
+		$$ = new Operation($2,null,'--',0,0);
 	}
 	| exp potencia exp
 	{
@@ -364,7 +364,7 @@ exp: exp mas exp
 	| true
 	| false
 	| null
-	| undefined
+	//| undefined
 	| id varLast
 	| id
 	| id PL bracketOpen paramFunc bracketClose
