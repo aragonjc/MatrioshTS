@@ -6,9 +6,10 @@ class tsObject{
         this.value = value;
         this.type = type;
         this.code3d = '';
-
+        
         //number
-        this.pointer = this.value;
+        if(this.type == 'number')
+            this.pointer = this.value;
     }
 
     translate(scope) {

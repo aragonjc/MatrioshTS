@@ -99,7 +99,9 @@
 %right 'not'
 
 %{
-
+	const Operation = require('./CodigoIntermedio/Operation.js');
+	const tsObject =  require('./CodigoIntermedio/tsObject.js')
+	const Print =     require('./CodigoIntermedio/Print.js')
 %}
 
 %start S
@@ -111,10 +113,10 @@ S: Bloque EOF
 ;
 
 Bloque: Bloque Instruccion
-	| Instruccion          
+	| Instruccion { $$ = [$1]; } 
 ;
 
-Instruccion: llamadaFuncion
+Instruccion: llamadaFuncion { $$ = $1; }
             |variables
             |Type id igual curlyBraceOpen parsObj curlyBraceClose semicolon/*; o no*/
 			|funciones
@@ -126,18 +128,21 @@ Instruccion: llamadaFuncion
 ;
 
 llamadaFuncion: id PL bracketOpen paramFunc bracketClose semicolon
+				{
+					$$ = new Print($4,0);
+				}
 ;
 
 PL:varLast
 	|;
 
 
-paramFunc: paramFuncList
+paramFunc: paramFuncList { $$ = $1; }
 		|
 ;
 
 paramFuncList: paramFuncList comma E
-			  |E
+			  |E { $$ = $1; }
 ;
 
 funciones: function id bracketOpen funcParam bracketClose funcDec
@@ -306,17 +311,38 @@ typesL: typesL sqBracketOpen sqBracketClose
 		|sqBracketOpen sqBracketClose
 ;
 
-E: exp
+E: exp { $$ = $1; }
 	| curlyBraceOpen objetoParam curlyBraceClose
 	;
 
 exp: exp mas exp
+	{
+		$$ = new Operation($1,$3,'+',0,0);
+	}
 	| exp menos exp
+	{
+		$$ = new Operation($1,$3,'-',0,0);
+	}
 	| exp por exp
+	{
+		$$ = new Operation($1,$3,'*',0,0);
+	}
 	| exp division exp
+	{
+		$$ = new Operation($1,$3,'/',0,0);
+	}
 	| menos exp %prec unary
+	{
+		$$ = new Operation($1,$3,'--',0,0);
+	}
 	| exp potencia exp
+	{
+		$$ = new Operation($1,$3,'**',0,0);
+	}
 	| exp modulo exp
+	{
+		$$ = new Operation($1,$3,'%',0,0);
+	}
 	| exp mayorque exp
 	| exp menorque exp
 	| exp mayorigualque exp
@@ -331,6 +357,9 @@ exp: exp mas exp
 	| exp increment
 	| exp decrement
 	| NUMBER
+	{
+		$$ = new tsObject(0,0,$1,'number');
+	}
 	| STRING
 	| true
 	| false
