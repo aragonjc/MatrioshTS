@@ -361,8 +361,17 @@ exp: exp mas exp
 		$$ = new tsObject(0,0,$1,'number');
 	}
 	| STRING
+	{
+		$$ = new tsObject(0,0,$1,'string');
+	}
 	| true
+	{
+		$$ = new tsObject(0,0,1,'boolean');
+	}
 	| false
+	{
+		$$ = new tsObject(0,0,0,'boolean');
+	}
 	| null
 	//| undefined
 	| id varLast
