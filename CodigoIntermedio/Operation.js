@@ -67,8 +67,8 @@ class Operation {
             let trueLabel = 'L' + scope.getNewLabel();
             let exitLabel = 'L' + scope.getNewLabel();
 
-            obj2.code3d += 'Heap[(int)' + boolPos + '] = -3;\n';
-            obj2.code3d += boolPos + '=' + boolPos + '+1;\n';
+            //obj2.code3d += 'Heap[(int)' + boolPos + '] = -3;\n';
+            //obj2.code3d += boolPos + '=' + boolPos + '+1;\n';
             obj2.code3d += 'if(' + obj2.pointer + '== 0) goto '+falseLabel+';\n';
             obj2.code3d += 'goto ' + trueLabel +';\n';
             obj2.code3d += falseLabel + ':\n';
@@ -82,6 +82,8 @@ class Operation {
             obj2.code3d += boolPos + '=' + boolPos + '+1;\n';
             obj2.code3d += 'Heap[(int)'+boolPos+']='+'e'.charCodeAt(0)+';\n'
             obj2.code3d += boolPos + '=' + boolPos + '+1;\n';
+            obj2.code3d += 'Heap[(int)'+boolPos+']='+'\0'.charCodeAt(0)+';\n'
+            obj2.code3d += boolPos + '=' + boolPos + '+1;\n';
             obj2.code3d += 'goto ' +exitLabel + ';\n';
             
             obj2.code3d += trueLabel + ':\n';
@@ -92,6 +94,8 @@ class Operation {
             obj2.code3d += 'Heap[(int)'+boolPos+']='+'u'.charCodeAt(0)+';\n'
             obj2.code3d += boolPos + '=' + boolPos + '+1;\n';
             obj2.code3d += 'Heap[(int)'+boolPos+']='+'e'.charCodeAt(0)+';\n'
+            obj2.code3d += boolPos + '=' + boolPos + '+1;\n';
+            obj2.code3d += 'Heap[(int)'+boolPos+']='+'\0'.charCodeAt(0)+';\n'
             obj2.code3d += boolPos + '=' + boolPos + '+1;\n';
             obj2.code3d += 'goto ' +exitLabel + ';\n';
             obj2.code3d += exitLabel + ':\n\n';
@@ -119,7 +123,53 @@ class Operation {
         } else if (obj1.type == 'boolean' && obj2.type == 'string') {
             
             this.type = 'string'
-        
+            
+            let actualPointer = 't' + scope.getNewTemp();
+            let boolPos = 't' + scope.getNewTemp();
+            obj1.code3d += actualPointer + '=H;\n';
+            obj1.code3d += boolPos + '=H;\n';
+            
+            let falseLabel = 'L' + scope.getNewLabel();
+            let trueLabel = 'L' + scope.getNewLabel();
+            let exitLabel = 'L' + scope.getNewLabel();
+
+            //obj1.code3d += 'Heap[(int)' + boolPos + '] = -3;\n';
+            //obj1.code3d += boolPos + '=' + boolPos + '+1;\n';
+            obj1.code3d += 'if(' + obj1.pointer + '== 0) goto '+falseLabel+';\n';
+            obj1.code3d += 'goto ' + trueLabel +';\n';
+            obj1.code3d += falseLabel + ':\n';
+            obj1.code3d += 'Heap[(int)'+boolPos+']='+'f'.charCodeAt(0)+';\n'
+            obj1.code3d += boolPos + '=' + boolPos + '+1;\n';
+            obj1.code3d += 'Heap[(int)'+boolPos+']='+'a'.charCodeAt(0)+';\n'
+            obj1.code3d += boolPos + '=' + boolPos + '+1;\n';
+            obj1.code3d += 'Heap[(int)'+boolPos+']='+'l'.charCodeAt(0)+';\n'
+            obj1.code3d += boolPos + '=' + boolPos + '+1;\n';
+            obj1.code3d += 'Heap[(int)'+boolPos+']='+'s'.charCodeAt(0)+';\n'
+            obj1.code3d += boolPos + '=' + boolPos + '+1;\n';
+            obj1.code3d += 'Heap[(int)'+boolPos+']='+'e'.charCodeAt(0)+';\n'
+            obj1.code3d += boolPos + '=' + boolPos + '+1;\n';
+            obj1.code3d += 'Heap[(int)'+boolPos+']='+'\0'.charCodeAt(0)+';\n'
+            obj1.code3d += boolPos + '=' + boolPos + '+1;\n';
+            obj1.code3d += 'goto ' +exitLabel + ';\n';
+            
+            obj1.code3d += trueLabel + ':\n';
+            obj1.code3d += 'Heap[(int)'+boolPos+']='+'t'.charCodeAt(0)+';\n'
+            obj1.code3d += boolPos + '=' + boolPos + '+1;\n';
+            obj1.code3d += 'Heap[(int)'+boolPos+']='+'r'.charCodeAt(0)+';\n'
+            obj1.code3d += boolPos + '=' + boolPos + '+1;\n';
+            obj1.code3d += 'Heap[(int)'+boolPos+']='+'u'.charCodeAt(0)+';\n'
+            obj1.code3d += boolPos + '=' + boolPos + '+1;\n';
+            obj1.code3d += 'Heap[(int)'+boolPos+']='+'e'.charCodeAt(0)+';\n'
+            obj1.code3d += boolPos + '=' + boolPos + '+1;\n';
+            obj1.code3d += 'Heap[(int)'+boolPos+']='+'\0'.charCodeAt(0)+';\n'
+            obj1.code3d += boolPos + '=' + boolPos + '+1;\n';
+            obj1.code3d += 'goto ' +exitLabel + ';\n';
+            obj1.code3d += exitLabel + ':\n\n';
+
+            obj1.code3d += 'H=' + boolPos + ';\n';
+            obj1.pointer = actualPointer;
+
+
         } else {
             console.log("ERROR")
             return;

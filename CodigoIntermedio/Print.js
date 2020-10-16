@@ -43,7 +43,7 @@ class Print {
             this.code3d+='if('+temp + '==' +'\0'.charCodeAt(0) + ') goto ' + endStringLabel + ';\n';
             this.code3d+= 'if('+temp + '=='+ '-1) goto ' + integerLabel + ';\n';
             this.code3d+= 'if('+temp + '=='+ '-2) goto ' + doubleLabel + ';\n';
-            //this.code3d+= 'if('+temp + '=='+ '-3) goto ' + booleanLabel + ';\n';
+            this.code3d+= 'if('+temp + '=='+ '-3) goto ' + booleanLabel + ';\n';
             this.code3d+= 'printf("%c",(int)'+temp+');\n';
             this.code3d+= stringPointer + '=' + stringPointer + '+1;\n';
             this.code3d+= 'goto ' + stringLabel + ';\n';
@@ -62,16 +62,16 @@ class Print {
             this.code3d+= stringPointer + '=' + stringPointer + '+1;\n';
             this.code3d+= 'goto ' + stringLabel + ';\n';
             
-            /*this.code3d+= booleanLabel + ':\n';
+            this.code3d+= booleanLabel + ':\n';
                 this.code3d+= stringPointer + '=' + stringPointer + '+1;\n';
-                this.code3d+= temp + '=Heap['+stringPointer+'];\n';
-                this.code3d+= 'print("%d",'+temp+');\n';
+                this.code3d+= temp + '=Heap[(int)'+stringPointer+'];\n';
+                this.code3d+= 'printf("%c",(int)'+temp+');\n';
                 this.code3d+= 'goto ' + endLabel + ';\n';
                 
                 
                 this.code3d+= endLabel + ':\n';
                 this.code3d+= stringPointer + '=' + stringPointer + '+1;\n';
-                this.code3d+= 'goto ' + stringLabel + ';\n';*/
+                this.code3d+= 'goto ' + stringLabel + ';\n';
 
             this.code3d+=endStringLabel+':\n\n';
                 

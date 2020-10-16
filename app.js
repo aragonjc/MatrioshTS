@@ -3,7 +3,7 @@ const scope = require('./CodigoIntermedio/Scope')
 
 let Scope = new scope(null);
 
-let ast = gramatica.parse('console.log("hola mundo " + true);');
+let ast = gramatica.parse('console.log(true + "hola mundo " + false + " hola");');
 
 ast.forEach(element => {
    let r = element.translate(Scope); 
