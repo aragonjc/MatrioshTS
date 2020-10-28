@@ -100,6 +100,7 @@
 
 %{
 	const Operation = require('./CodigoIntermedio/Operation.js');
+	const Relational = require('./CodigoIntermedio/Relational.js');
 	const tsObject =  require('./CodigoIntermedio/tsObject.js')
 	const Print =     require('./CodigoIntermedio/Print.js')
 %}
@@ -344,15 +345,45 @@ exp: exp mas exp
 		$$ = new Operation($1,$3,'%',0,0);
 	}
 	| exp mayorque exp
+	{
+		$$ = new Relational($1,$3,'>',0,0);
+	}
 	| exp menorque exp
+	{
+		$$ = new Relational($1,$3,'<',0,0);
+	}
 	| exp mayorigualque exp
+	{
+		$$ = new Relational($1,$3,'>=',0,0);
+	}
 	| exp menorigualque exp
+	{
+		$$ = new Relational($1,$3,'<=',0,0);
+	}
 	| exp igualdad exp
+	{
+		$$ = new Relational($1,$3,'==',0,0);
+	}
 	| exp diferencia exp
+	{
+		$$ = new Relational($1,$3,'!=',0,0);
+	}
 	| exp and exp
+	{
+		$$ = new Operation($1,$3,'&&',0,0);
+	}
 	| exp or exp
+	{
+		$$ = new Operation($1,$3,'||',0,0);
+	}
 	| not exp
+	{
+		$$ = new Operation($2,null,'!',0,0);
+	}
 	| bracketOpen exp bracketClose
+	{
+		$$ =$1;
+	}
 	| exp question exp dosPuntos exp
 	| exp increment
 	| exp decrement

@@ -75,7 +75,26 @@ class Print {
 
             this.code3d+=endStringLabel+':\n\n';
                 
-        }
+        } else if(printValue.type === 'boolean') {
+            let labelTrue = 'L'+scope.getNewLabel();
+            let labelFalse = 'L'+scope.getNewLabel();
+            let exitLabel = 'L'+scope.getNewLabel();
+            this.code3d += 'if(' + printValue.pointer  + '== 1)goto '+ labelTrue +';\n'
+            this.code3d += labelFalse + ':\n';
+            this.code3d += 'printf("%c",102);\n';
+            this.code3d += 'printf("%c",97);\n';
+            this.code3d += 'printf("%c",108);\n';
+            this.code3d += 'printf("%c",115);\n';
+            this.code3d += 'printf("%c",101);\n';
+            this.code3d += 'goto ' + exitLabel + ';\n';
+            this.code3d += labelTrue + ':\n';
+            this.code3d += 'printf("%c",116);\n';
+            this.code3d += 'printf("%c",114);\n';
+            this.code3d += 'printf("%c",117);\n';
+            this.code3d += 'printf("%c",101);\n\n';
+
+            this.code3d += exitLabel + ':\n\n\n';
+        }   
         return this;
     }
 

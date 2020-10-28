@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/aragonjc/MatrioshTS/issues"
   },
-  "homepage": "https://github.com/aragonjc/MatrioshTS#readme"
+  "homepage": "https://github.com/aragonjc/MatrioshTS#readme",
+  "dependencies": {
+    "jison": "^0.4.18"
+  }
 }

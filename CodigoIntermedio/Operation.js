@@ -21,7 +21,7 @@ class Operation {
             case '/':
                 return this.div(scope)
             case '**':
-                break;
+                return this.pow(scope)
             case '%':
                 return this.mod(scope)
             case '--':
@@ -332,6 +332,53 @@ class Operation {
         newTsObject.pointer = newTemp;
         newTsObject.code3d += newTemp + '= -' + obj1.pointer + ';\n';
         
+        return newTsObject;
+    }
+
+    pow(scope) {
+        let newTsObject;
+        const obj1 = this.nodeLeft.translate(scope)
+        const obj2 = this.nodeRight.translate(scope)
+        if(obj1.type == 'number' && obj2.type == 'number') {
+            this.type = 'number';
+        } else {
+            console.log("ERROR")
+            return null;
+        }
+
+        newTsObject = new tsObject(0,0,null,this.type);
+        newTsObject.code3d+=obj1.code3d;
+        newTsObject.code3d+=obj2.code3d;
+
+
+        let newTemp = 't'+scope.getNewTemp();
+        let ceroLabel = 'L' + scope.getNewLabel();
+        let initLabel = 'L' + scope.getNewLabel();
+        let powLabel = 'L'  + scope.getNewLabel();
+        newTsObject.pointer = newTemp;
+        
+
+        newTsObject.code3d += newTemp + '=' + '1' + ';\n';
+        
+        let tempCounter = 't'+scope.getNewTemp();
+        newTsObject.code3d += tempCounter + '= 0;\n';
+        let exp = 't'+scope.getNewTemp();
+        newTsObject.code3d += exp + '='+ obj2.pointer + '-1;\n'
+        
+        newTsObject.code3d += 'if(' + obj2.pointer + ' == 0) goto ' + ceroLabel + ';\n';
+        newTsObject.code3d += newTemp + '='+ obj1.pointer + ';\n';
+        newTsObject.code3d += 'if(' + obj2.pointer + ' > 0) goto ' + powLabel + ';\n';
+
+        newTsObject.code3d += powLabel + ':\n';
+        newTsObject.code3d += newTemp + '=' + newTemp + '*' + obj1.pointer + ';\n';
+        newTsObject.code3d += tempCounter + '=' + tempCounter + '+1;\n';
+        newTsObject.code3d += initLabel + ':\n'; 
+        newTsObject.code3d += 'if(' + tempCounter + '==' + exp + ') goto ' + ceroLabel +';\n';
+        newTsObject.code3d += 'goto '+powLabel + ';\n'; 
+        newTsObject.code3d += ceroLabel + ':\n\n';
+        
+        
+
         return newTsObject;
     }
 }
