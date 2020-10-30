@@ -104,6 +104,9 @@
 	const Relational = require('./CodigoIntermedio/Relational.js');
 	const tsObject =  require('./CodigoIntermedio/tsObject.js')
 	const Print =     require('./CodigoIntermedio/Print.js')
+	const Variables = require('./CodigoIntermedio/Variable.js')
+	const defLast = require('./CodigoIntermedio/defLast.js')
+	const Id = require('./CodigoIntermedio/Id.js')
 %}
 
 %start S
@@ -114,7 +117,7 @@ S: Bloque EOF
 { return $1; }
 ;
 
-Bloque: Bloque Instruccion
+Bloque: Bloque Instruccion { $1.push($2); $$=$1;}
 	| Instruccion { $$ = [$1]; } 
 ;
 
@@ -248,7 +251,7 @@ defVarLastP: defVarLastP comma id defLast
 
 variables: defType id defLast defVarLast semicolon
 			{
-				$$ = Variables($1,$2,$3,$4);
+				$$ = new Variables($1,$2,$3,$4);
 			}
 		  |id asignLast semicolon
 		  |id asignLast
@@ -256,11 +259,11 @@ variables: defType id defLast defVarLast semicolon
 
 defLast: dosPuntos types igual E
 		{
-			$$ = defLast($2,$4);
+			$$ = new defLast($2,$4);
 		}
         |dosPuntos types
 		{
-			$$ = defLast($2,null);
+			$$ = new defLast($2,null);
 		}
 ;
 
@@ -439,7 +442,7 @@ exp: exp mas exp
 	| id varLast
 	| id
 	{
-		$$ = new Id();
+		$$ = new Id(0,0,$1);
 	}
 	| id PL bracketOpen paramFunc bracketClose
 	| sqBracketOpen arrParam sqBracketClose sqBCKFIN

@@ -18,7 +18,7 @@ class Print {
         
         if(printValue === null || printValue === undefined) {
             //add to errors table
-            console.log('ERROR')
+            console.log('ERROR en print')
             
             return;
         }

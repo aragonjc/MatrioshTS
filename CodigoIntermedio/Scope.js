@@ -7,9 +7,20 @@ class Scope {
         this.table = new Map();
     } 
 
+    findVariable(id) {
+        var sc= null;
+
+        for(sc = this;sc != null;sc = sc.prev){
+            if(sc.table.has(id)) {
+                return sc.table.get(id);
+            }
+        }
+        return null;
+    }
+
     insertVariable(id,pointer,type,isArray,dim) {
         const newVar = {
-            value:pointer,
+            pointer:pointer,
             type:type
         }
 
