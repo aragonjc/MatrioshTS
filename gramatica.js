@@ -164,17 +164,17 @@ case 121:
 break;
 case 122:
 
-		this.$ = new Operation($$[$0-2],$$[$0],'&&',0,0);
+		this.$ = new Logical($$[$0-2],$$[$0],'&&',0,0);
 	
 break;
 case 123:
 
-		this.$ = new Operation($$[$0-2],$$[$0],'||',0,0);
+		this.$ = new Logical($$[$0-2],$$[$0],'||',0,0);
 	
 break;
 case 124:
 
-		this.$ = new Operation($$[$0],null,'!',0,0);
+		this.$ = new Logical($$[$0],null,'!',0,0);
 	
 break;
 case 125:
@@ -354,6 +354,7 @@ parse: function parse(input) {
 }};
 
 
+	const Logical  = require('./CodigoIntermedio/Logical.js');
 	const Operation = require('./CodigoIntermedio/Operation.js');
 	const Relational = require('./CodigoIntermedio/Relational.js');
 	const tsObject =  require('./CodigoIntermedio/tsObject.js')

@@ -99,6 +99,7 @@
 %right 'not'
 
 %{
+	const Logical  = require('./CodigoIntermedio/Logical.js');
 	const Operation = require('./CodigoIntermedio/Operation.js');
 	const Relational = require('./CodigoIntermedio/Relational.js');
 	const tsObject =  require('./CodigoIntermedio/tsObject.js')
@@ -118,7 +119,7 @@ Bloque: Bloque Instruccion
 ;
 
 Instruccion: llamadaFuncion { $$ = $1; }
-            |variables
+            |variables { $$=$1; }
             |Type id igual curlyBraceOpen parsObj curlyBraceClose semicolon/*; o no*/
 			|funciones
 			|IF
@@ -246,12 +247,21 @@ defVarLastP: defVarLastP comma id defLast
 			|id defLast;
 
 variables: defType id defLast defVarLast semicolon
+			{
+				$$ = Variables($1,$2,$3,$4);
+			}
 		  |id asignLast semicolon
 		  |id asignLast
 ;
 
 defLast: dosPuntos types igual E
+		{
+			$$ = defLast($2,$4);
+		}
         |dosPuntos types
+		{
+			$$ = defLast($2,null);
+		}
 ;
 
 asignLast: varLast asignLastF
@@ -291,25 +301,46 @@ opkv: comma
 keyvalueT: id dosPuntos types
 ;
 
-defType: let   
-	    |const 
+defType: let  {$$=$1;}
+	    |const {$$=$1;}
 ;
 
 
 
 types: number  typesList
+		{
+			$$ = {type:$1,list:$2}
+		}
       |boolean typesList
+	  {
+			$$ = {type:$1,list:$2}
+		}
       |string  typesList
+	  {
+			$$ = {type:$1,list:$2}
+		}
       |void    typesList
+	  {
+			$$ = {type:$1,list:$2}
+		}
       |id      typesList
+	  {
+			$$ = {type:$1,list:$2}
+		}
 ;
 
 typesList: typesL
-		  |
+		  |{$$ = 0;}
 ;
 
 typesL: typesL sqBracketOpen sqBracketClose
+		{
+			$$ = $1 + 1;
+		}
 		|sqBracketOpen sqBracketClose
+		{
+			$$ = 1;
+		}
 ;
 
 E: exp { $$ = $1; }
@@ -370,15 +401,15 @@ exp: exp mas exp
 	}
 	| exp and exp
 	{
-		$$ = new Operation($1,$3,'&&',0,0);
+		$$ = new Logical($1,$3,'&&',0,0);
 	}
 	| exp or exp
 	{
-		$$ = new Operation($1,$3,'||',0,0);
+		$$ = new Logical($1,$3,'||',0,0);
 	}
 	| not exp
 	{
-		$$ = new Operation($2,null,'!',0,0);
+		$$ = new Logical($2,null,'!',0,0);
 	}
 	| bracketOpen exp bracketClose
 	{
@@ -407,6 +438,9 @@ exp: exp mas exp
 	//| undefined
 	| id varLast
 	| id
+	{
+		$$ = new Id();
+	}
 	| id PL bracketOpen paramFunc bracketClose
 	| sqBracketOpen arrParam sqBracketClose sqBCKFIN
 ;
