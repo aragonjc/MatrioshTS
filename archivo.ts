@@ -10,7 +10,7 @@ console.log('\n');
 if(a > b) {
     let hola:string = "hola mundo\n";
     console.log(hola);
-    console.log(a);
+    console.log(a + '\n');
     console.log("a mayor a b\n");
 } else if(a < b) {
     console.log("a menor a b\n");
