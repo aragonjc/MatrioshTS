@@ -7,6 +7,7 @@ class tsObject{
         this.type = type;
         this.code3d = '';
         
+        
         //number
         if(this.type == 'number' || this.type == 'boolean')
             this.pointer = this.value;

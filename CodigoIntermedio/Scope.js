@@ -5,7 +5,16 @@ class Scope {
         this.label = 0;
         this.prev = prev;
         this.table = new Map();
-    } 
+        this.prevSize = 0;
+        if(prev != null) {
+            this.prevSize = prev.table.size;
+        }
+        
+    }
+
+    getSize() {
+        return this.table.size
+    }
 
     findVariable(id) {
         var sc= null;

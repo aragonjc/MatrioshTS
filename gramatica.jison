@@ -107,6 +107,7 @@
 	const Variables = require('./CodigoIntermedio/Variable.js')
 	const defLast = require('./CodigoIntermedio/defLast.js')
 	const Id = require('./CodigoIntermedio/Id.js')
+	const If = require('./CodigoIntermedio/If.js')
 %}
 
 %start S
@@ -125,7 +126,7 @@ Instruccion: llamadaFuncion { $$ = $1; }
             |variables { $$=$1; }
             |Type id igual curlyBraceOpen parsObj curlyBraceClose semicolon/*; o no*/
 			|funciones
-			|IF
+			|IF { $$ =$1; }
 			|WHILE
 			|DOWHILE
 			|SWITCH
@@ -165,14 +166,14 @@ funcParamList: funcParamList comma id dosPuntos types
 			  |id dosPuntos types
 ;
 
-STMT: STMT InstruccionI
-	 |InstruccionI
+STMT: STMT InstruccionI  { $1.push($2); $$=$1;}
+	 |InstruccionI {$$=$1;}
 ;
 
-InstruccionI: llamadaFuncion
-            |variables
+InstruccionI: llamadaFuncion {$$=$1;}
+            |variables {$$=$1;}
 			|funciones
-            |IF
+            |IF{$$=$1;}
             |WHILE
             |DOWHILE
             |SWITCH
@@ -188,15 +189,23 @@ OP: E semicolon
 	;
 
 IF: if bracketOpen exp bracketClose curlyBraceOpen STMT curlyBraceClose IFLAST
-	
+	{
+		$$ = new If($3,$6,$8);
+	}
 ;
 
-IFLAST: else IFCOND
-	  |
+IFLAST: else IFCOND { $$ = $2; }
+	  |{$$ = null;}
 ;
 
 IFCOND: if bracketOpen exp bracketClose curlyBraceOpen STMT curlyBraceClose IFLAST
+	   {
+		   $$ = new If($3,$6,$8);
+	   }
 	   |curlyBraceOpen STMT curlyBraceClose
+	   {
+		   $$ = new If(null,$2,null);
+	   }
 ;
 
 WHILE: while bracketOpen exp bracketClose curlyBraceOpen STMT curlyBraceClose
