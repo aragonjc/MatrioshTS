@@ -1,4 +1,5 @@
 const tsObject = require('./tsObject');
+const Scope = require('./Scope')
 
 class If {
     constructor(exp,stmt,iflast) {
@@ -9,7 +10,7 @@ class If {
 
     translate(scope) {
         
-        const Statement = this.stmt.translate(scope);
+        
         if(this.exp) {
 
             const E = this.exp.translate(scope);
@@ -22,7 +23,16 @@ class If {
                 newTsObj.code3d += 'if('+E.pointer+') goto '+tLabel+';\n'
                 newTsObj.code3d += 'goto '+fLabel+';\n';
                 newTsObj.code3d += tLabel + ':\n';
-                newTsObj.code3d += Statement.code3d;
+
+                const newScope = new Scope(scope,scope.terminal,scope.label)
+                let Statement = '';
+                this.stmt.forEach(element => {
+                    Statement += element.translate(newScope).code3d;
+                });
+                scope.terminal = newScope.terminal;
+                scope.label = newScope.label;
+
+                newTsObj.code3d += Statement;
                 newTsObj.code3d += 'goto '+exitLabel+';\n';
                 newTsObj.code3d += fLabel + ':\n\n';
     
@@ -39,6 +49,16 @@ class If {
                 return null;
             }
         } else {
+            const newScope = new Scope(scope,scope.terminal,scope.label)
+            let st = '';
+            this.stmt.forEach(element => {
+                st += element.translate(newScope).code3d;
+            });
+            let Statement = new tsObject(0,0,null,null);
+            Statement.code3d = st;
+            scope.terminal = newScope.terminal;
+            scope.label = newScope.label;
+            
             return Statement;
         }
 

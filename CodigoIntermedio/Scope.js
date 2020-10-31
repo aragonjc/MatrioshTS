@@ -1,8 +1,8 @@
 class Scope {
 
-    constructor(prev){
-        this.terminal = 0;
-        this.label = 0;
+    constructor(prev,terminal,label){
+        this.terminal = terminal;
+        this.label = label;
         this.prev = prev;
         this.table = new Map();
         this.prevSize = 0;
@@ -25,6 +25,16 @@ class Scope {
             }
         }
         return null;
+    }
+
+    modifyVariable(id,value) {
+        var sc= null;
+
+        for(sc = this;sc != null;sc = sc.prev){
+            if(sc.table.has(id)) {
+                sc.table.set(id,value);
+            }
+        }
     }
 
     insertVariable(id,pointer,type,isArray,dim) {

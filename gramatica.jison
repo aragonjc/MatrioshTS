@@ -108,6 +108,7 @@
 	const defLast = require('./CodigoIntermedio/defLast.js')
 	const Id = require('./CodigoIntermedio/Id.js')
 	const If = require('./CodigoIntermedio/If.js')
+	const VariableChange = require('./CodigoIntermedio/VariableChange.js');
 %}
 
 %start S
@@ -167,7 +168,7 @@ funcParamList: funcParamList comma id dosPuntos types
 ;
 
 STMT: STMT InstruccionI  { $1.push($2); $$=$1;}
-	 |InstruccionI {$$=$1;}
+	 |InstruccionI {$$=[$1];}
 ;
 
 InstruccionI: llamadaFuncion {$$=$1;}
@@ -263,7 +264,13 @@ variables: defType id defLast defVarLast semicolon
 				$$ = new Variables($1,$2,$3,$4);
 			}
 		  |id asignLast semicolon
+		  {
+			  $$ = new VariableChange($1,$2);
+		  }
 		  |id asignLast
+		  {
+			  $$ = new VariableChange($1,$2);
+		  }
 ;
 
 defLast: dosPuntos types igual E
@@ -277,7 +284,7 @@ defLast: dosPuntos types igual E
 ;
 
 asignLast: varLast asignLastF
-		 | asignLastF
+		 | asignLastF {$$ = $1;}
 ;
 
 varLast: sqBracketOpen exp sqBracketClose  auxP
@@ -289,10 +296,25 @@ auxP:varLast
 	;
 
 asignLastF:  igual E
+			{
+				$$ = {tipo:'=',value:$2}
+			}
 			|masIgual E
+			{
+				$$ = {tipo:'+',value:$2}
+			}
 			|menosIgual E
+			{
+				$$ = {tipo:'-',value:$2}
+			}
 			|porIgual E
+			{
+				$$ = {tipo:'*',value:$2}
+			}
 			|divisionIgual E
+			{
+				$$ = {tipo:'/',value:$2}
+			}
 			|increment
 			|decrement
 ;
