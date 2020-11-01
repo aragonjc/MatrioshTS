@@ -21,7 +21,7 @@ class tsObject{
             
             //if(string.length == 2) {
                 
-                if(/*string[0] == '\\' && string[1] == 'n'*/string == '\\n') {
+                /*if(string == '\\n') {
 
                     
                     let newTemp = 't' + scope.getNewTemp();
@@ -39,7 +39,7 @@ class tsObject{
                     this.value = undefined;
 
                     return this;
-                }
+                }*/
             //}
                 
                 //string = string.replace("\n","\\n")
@@ -49,6 +49,7 @@ class tsObject{
                 this.pointer = newTemp;
                 this.code3d += newTemp + '=H;\n';
                 this.code3d += newTempCounter + '=H;\n';
+
                 for(let i =0;i<string.length;i++) {
 
                     if(string[i] == "\\" && i<string.length-1) {

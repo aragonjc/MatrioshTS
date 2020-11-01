@@ -109,6 +109,7 @@
 	const Id = require('./CodigoIntermedio/Id.js')
 	const If = require('./CodigoIntermedio/If.js')
 	const VariableChange = require('./CodigoIntermedio/VariableChange.js');
+	const While = require('./CodigoIntermedio/While.js');
 %}
 
 %start S
@@ -210,6 +211,9 @@ IFCOND: if bracketOpen exp bracketClose curlyBraceOpen STMT curlyBraceClose IFLA
 ;
 
 WHILE: while bracketOpen exp bracketClose curlyBraceOpen STMT curlyBraceClose
+{
+	$$ = new While(0,0,$3,$6);
+}
 ;
 
 DOWHILE: do curlyBraceOpen STMT curlyBraceClose while bracketOpen exp bracketClose semicolon
@@ -316,7 +320,13 @@ asignLastF:  igual E
 				$$ = {tipo:'/',value:$2}
 			}
 			|increment
+			{
+				$$ = {tipo:'++',value:null}
+			}
 			|decrement
+			{
+				$$ = {tipo:'--',value:null}
+			}
 ;
 
 parsObj: objType

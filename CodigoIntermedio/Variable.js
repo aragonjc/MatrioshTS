@@ -16,7 +16,7 @@ class Variable {
         let newObj = new tsObject(0,0,null,type);
         
         if(type == 'null') {
-
+            
         } else if(type == valueType) {
 
             if(objdef.dim == 0) {
