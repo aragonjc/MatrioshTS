@@ -110,6 +110,7 @@
 	const If = require('./CodigoIntermedio/If.js')
 	const VariableChange = require('./CodigoIntermedio/VariableChange.js');
 	const While = require('./CodigoIntermedio/While.js');
+	const DoWhile = require('./CodigoIntermedio/DoWhile.js');
 %}
 
 %start S
@@ -129,8 +130,8 @@ Instruccion: llamadaFuncion { $$ = $1; }
             |Type id igual curlyBraceOpen parsObj curlyBraceClose semicolon/*; o no*/
 			|funciones
 			|IF { $$ =$1; }
-			|WHILE
-			|DOWHILE
+			|WHILE {$$ =$1;}
+			|DOWHILE {$$=$1;}
 			|SWITCH
 			|FOR
 ;
@@ -176,8 +177,8 @@ InstruccionI: llamadaFuncion {$$=$1;}
             |variables {$$=$1;}
 			|funciones
             |IF{$$=$1;}
-            |WHILE
-            |DOWHILE
+            |WHILE {$$=$1;}
+            |DOWHILE {$$=$1;}
             |SWITCH
             |FOR
             |Break semicolon
@@ -217,6 +218,9 @@ WHILE: while bracketOpen exp bracketClose curlyBraceOpen STMT curlyBraceClose
 ;
 
 DOWHILE: do curlyBraceOpen STMT curlyBraceClose while bracketOpen exp bracketClose semicolon
+{
+	$$ = new DoWhile(0,0,$7,$3);
+}
 ;
 
 SWITCH: switch bracketOpen exp bracketClose curlyBraceOpen FIRSTCASE LASTCASE curlyBraceClose
