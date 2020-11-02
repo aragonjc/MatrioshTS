@@ -198,6 +198,7 @@ class Operation {
             //newObject.code3d += 'Aqui pongo el apuntador 1\n';
             newTsObject.code3d += stringPos2 + '=' + obj2.pointer + ';\n';
             //newObject.code3d += 'Aqui pongo el apuntador 2\n';
+
             newTsObject.code3d += leftString + ':\n';
             newTsObject.code3d += temp + '= Heap[(int)' + stringPos1 + '];\n';
             newTsObject.code3d += 'if('+ temp +' == ' + '\0'.charCodeAt(0) + ') goto ' + exitLeftString +';\n';
@@ -207,6 +208,7 @@ class Operation {
             //newObject.code3d += temp + '= Heap[' + newActualPointer + '];\n';
             newTsObject.code3d += 'goto ' + leftString + ';\n';
             newTsObject.code3d += exitLeftString + ':\n\n';
+            
             newTsObject.code3d += rigthString + ':\n';
             newTsObject.code3d += temp + ' = Heap[(int)' + stringPos2 + '];\n';
             newTsObject.code3d += 'if('+ temp + ' == ' + '\0'.charCodeAt(0) + ') goto ' + exitLabel +';\n';

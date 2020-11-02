@@ -111,6 +111,7 @@
 	const VariableChange = require('./CodigoIntermedio/VariableChange.js');
 	const While = require('./CodigoIntermedio/While.js');
 	const DoWhile = require('./CodigoIntermedio/DoWhile.js');
+	const Switch = require('./CodigoIntermedio/Switch.js');
 %}
 
 %start S
@@ -224,24 +225,40 @@ DOWHILE: do curlyBraceOpen STMT curlyBraceClose while bracketOpen exp bracketClo
 ;
 
 SWITCH: switch bracketOpen exp bracketClose curlyBraceOpen FIRSTCASE LASTCASE curlyBraceClose
+		{
+			$$ = new Switch($3,$6,$7);
+		}
 ;
 
-FIRSTCASE: CASE
-		  |
+FIRSTCASE: CASE {$$=$1;}
+		  | {$$ = null;}
 ;
 
 CASE: CASE case exp dosPuntos STMT
+	  {
+		  $1.push({exp:$3,stmt:$5});
+		  $$ = $1;
+	  }
 	 |case exp dosPuntos STMT
+	 {
+		 $$ = [{exp:$2,stmt:$4}]
+	 }
 ;
 
 LASTCASE: DEFCASE ENDCASE
+{
+	$$ = $1;
+}
 ;
 
 DEFCASE: default dosPuntos STMT
+{
+	$$ = $3;
+}
 ;
 
-ENDCASE: CASE
-		|
+ENDCASE: CASE {$$=$1;}
+		|{$$=null;}
 ;
 
 
