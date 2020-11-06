@@ -112,6 +112,8 @@
 	const While = require('./CodigoIntermedio/While.js');
 	const DoWhile = require('./CodigoIntermedio/DoWhile.js');
 	const Switch = require('./CodigoIntermedio/Switch.js');
+	const For = require('./CodigoIntermedio/For.js')
+	const IncDecOp = require('./CodigoIntermedio/IncDecOp.js');
 %}
 
 %start S
@@ -133,8 +135,8 @@ Instruccion: llamadaFuncion { $$ = $1; }
 			|IF { $$ =$1; }
 			|WHILE {$$ =$1;}
 			|DOWHILE {$$=$1;}
-			|SWITCH
-			|FOR
+			|SWITCH {$$=$1;}
+			|FOR  {$$=$1;}
 ;
 
 llamadaFuncion: id PL bracketOpen paramFunc bracketClose semicolon
@@ -180,8 +182,8 @@ InstruccionI: llamadaFuncion {$$=$1;}
             |IF{$$=$1;}
             |WHILE {$$=$1;}
             |DOWHILE {$$=$1;}
-            |SWITCH
-            |FOR
+            |SWITCH {$$=$1;}
+            |FOR {$$=$1;}
             |Break semicolon
             |Continue semicolon
             |return OP
@@ -262,7 +264,10 @@ ENDCASE: CASE {$$=$1;}
 ;
 
 
-FOR: for bracketOpen let id igual exp semicolon exp semicolon exp bracketClose curlyBraceOpen STMT curlyBraceClose
+FOR: for bracketOpen let id dosPuntos types igual exp semicolon exp semicolon exp bracketClose curlyBraceOpen STMT curlyBraceClose
+	{
+		$$ = new For($3,$4,$6,$8,$10,$12,$15);
+	}
 	|for bracketOpen exp igual exp semicolon exp semicolon exp bracketClose curlyBraceOpen STMT curlyBraceClose
 	|for bracketOpen exp semicolon exp semicolon exp bracketClose curlyBraceOpen STMT curlyBraceClose
 	|for bracketOpen let id forOP exp bracketClose curlyBraceOpen STMT curlyBraceClose
@@ -279,7 +284,7 @@ forDec: variables
 ;
 
 defVarLast: comma defVarLastP
-			|;
+			|{$$=null;};
 
 defVarLastP: defVarLastP comma id defLast
 			|id defLast;
@@ -482,7 +487,13 @@ exp: exp mas exp
 	}
 	| exp question exp dosPuntos exp
 	| exp increment
+	{
+		$$ = new IncDecOp($1,'+');
+	}
 	| exp decrement
+	{
+		$$ = new IncDecOp($1,'-');
+	}
 	| NUMBER
 	{
 		$$ = new tsObject(0,0,$1,'number');
