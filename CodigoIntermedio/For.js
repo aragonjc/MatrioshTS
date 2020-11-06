@@ -48,6 +48,7 @@ class For {
         newTsObject.code3d += Statement;
         prevForScope.terminal = newScope.terminal;
         prevForScope.label = newScope.label;
+
         let iter = this.iterate.translate(prevForScope);
         
         newTsObject.code3d += iter.code3d;
@@ -56,6 +57,7 @@ class For {
         
         scope.terminal = prevForScope.terminal;
         scope.label = prevForScope.label;
+        
         newTsObject.code3d += 'P = '+tempStack+';\n';
         return newTsObject;
     }

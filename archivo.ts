@@ -1,4 +1,5 @@
-for (let index:number = 1; index < 11; index++) {
+let index:number = 3;
+for (index; index < 12; index++) {
 
   console.log(index);
   console.log('\n');

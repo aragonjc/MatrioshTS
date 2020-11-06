@@ -114,6 +114,8 @@
 	const Switch = require('./CodigoIntermedio/Switch.js');
 	const For = require('./CodigoIntermedio/For.js')
 	const IncDecOp = require('./CodigoIntermedio/IncDecOp.js');
+	const For2 = require('./CodigoIntermedio/For2.js');
+	const ForThree = require('./CodigoIntermedio/ForThree.js');
 %}
 
 %start S
@@ -269,7 +271,13 @@ FOR: for bracketOpen let id dosPuntos types igual exp semicolon exp semicolon ex
 		$$ = new For($3,$4,$6,$8,$10,$12,$15);
 	}
 	|for bracketOpen exp igual exp semicolon exp semicolon exp bracketClose curlyBraceOpen STMT curlyBraceClose
+	{
+		$$ = new For2($3,$5,$7,$9,$12);
+	}
 	|for bracketOpen exp semicolon exp semicolon exp bracketClose curlyBraceOpen STMT curlyBraceClose
+	{
+		$$ = new ForThree($3,$5,$7,$10);
+	}
 	|for bracketOpen let id forOP exp bracketClose curlyBraceOpen STMT curlyBraceClose
 	|for bracketOpen exp forOP exp bracketClose curlyBraceOpen STMT curlyBraceClose
 ;
