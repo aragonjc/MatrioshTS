@@ -28,18 +28,22 @@ class Function {
 
         });
         
-        scope.terminal = newScope.terminal;
-        scope.label = newScope.label;
-        
         scope.insertFunction(this.id,type,list,paramsList); 
 
         let newTsObject = new tsObject(0,0,null,null);
         let returnLabel = 'L'+ scope.getNewLabel()
         newTsObject.code3d += 'void ' + this.id + '(){\n';
-
+        let StatementCod3d = '';
+        stmt.forEach(element => {
+            StatementCod3d += element.translate(newScope,returnlbl,breaklbl,continuelbl).code3d;
+        });
+        newTsObject.code3d += StatementCod3d;
         newTsObject.code3d += returnLabel + ':\n';
         newTsObject.code3d += '}\n';
         
+        scope.terminal = newScope.terminal;
+        scope.label = newScope.label;
+
         return newTsObject
     }
 }

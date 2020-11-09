@@ -117,6 +117,7 @@
 	const For2 = require('./CodigoIntermedio/For2.js');
 	const ForThree = require('./CodigoIntermedio/ForThree.js');
 	const Function = require('./CodigoIntermedio/Function.js');
+	const callFunction = require('./CodigoIntermedio/callFunction.js');
 %}
 
 %start S
