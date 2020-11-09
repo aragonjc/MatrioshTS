@@ -9,7 +9,7 @@ class DoWhile {
         this.stmt = stmt;       
     }
 
-    translate(scope) {
+    translate(scope,returnlbl,breaklbl,continuelbl) {
 
         let returnLabel = 'L'+scope.getNewLabel();
         let exitLabel = 'L'+scope.getNewLabel();
@@ -22,13 +22,13 @@ class DoWhile {
         newTsObject.code3d += returnLabel + ':\n';
         const newScope = new Scope(scope,scope.terminal,scope.label);
         this.stmt.forEach(element => {
-            Statement += element.translate(newScope).code3d;
+            Statement += element.translate(newScope,returnlbl,breaklbl,continuelbl).code3d;
         });
         newTsObject.code3d += Statement
         scope.terminal = newScope.terminal;
         scope.label = newScope.label;
         //-------------------------
-        E = this.exp.translate(scope);
+        E = this.exp.translate(scope,returnlbl,breaklbl,continuelbl);
         newTsObject.code3d += E.code3d;
         newTsObject.code3d += 'if('+E.pointer+') goto '+returnLabel+';\n'
         newTsObject.code3d += 'goto '+exitLabel+';\n'

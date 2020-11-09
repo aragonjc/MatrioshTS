@@ -116,6 +116,7 @@
 	const IncDecOp = require('./CodigoIntermedio/IncDecOp.js');
 	const For2 = require('./CodigoIntermedio/For2.js');
 	const ForThree = require('./CodigoIntermedio/ForThree.js');
+	const Function = require('./CodigoIntermedio/Function.js');
 %}
 
 %start S
@@ -133,7 +134,7 @@ Bloque: Bloque Instruccion { $1.push($2); $$=$1;}
 Instruccion: llamadaFuncion { $$ = $1; }
             |variables { $$=$1; }
             |Type id igual curlyBraceOpen parsObj curlyBraceClose semicolon/*; o no*/
-			|funciones
+			|funciones { $$=$1; }
 			|IF { $$ =$1; }
 			|WHILE {$$ =$1;}
 			|DOWHILE {$$=$1;}
@@ -160,18 +161,29 @@ paramFuncList: paramFuncList comma E
 ;
 
 funciones: function id bracketOpen funcParam bracketClose funcDec
+		   {
+			   $$ = new Function($2,$4,$6);
+		   }
 		  ;
 
 funcDec: dosPuntos types curlyBraceOpen STMT curlyBraceClose
+		{
+			$$ = {type:$2,stmt:$4}
+		}
 		|curlyBraceOpen STMT curlyBraceClose
+		{
+			$$ = {type:null,stmt:$2}
+		}
 ;
 
-funcParam: funcParamList
-		  |
+funcParam: funcParamList {$$=$1;}
+		  |{$$ = null;}
 ;
 
 funcParamList: funcParamList comma id dosPuntos types
+			  {$1.push({id:$3,types:$5}); $$=$1;}
 			  |id dosPuntos types
+			  {$$ = [{id:$1,types:$3}];}
 ;
 
 STMT: STMT InstruccionI  { $1.push($2); $$=$1;}
@@ -402,7 +414,7 @@ types: number  typesList
 			$$ = {type:$1,list:$2}
 		}
       |id      typesList
-	  {
+	  	{
 			$$ = {type:$1,list:$2}
 		}
 ;

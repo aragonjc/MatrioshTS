@@ -7,7 +7,7 @@ class Id {
         this.id = id;
     }
 
-    translate(scope) {
+    translate(scope,returnlbl,breaklbl,continuelbl) {
         let varRes = scope.findVariable(this.id);
         if(varRes == null) {
             console.log("ERROR en id")

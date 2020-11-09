@@ -5,6 +5,7 @@ class Scope {
         this.label = label;
         this.prev = prev;
         this.table = new Map();
+        this.funcTable = new Map();
         this.prevSize = 0;
         if(prev != null) {
             this.prevSize = prev.table.size;
@@ -45,6 +46,32 @@ class Scope {
 
         if(!this.existsLocalVariable(id)) {
             this.table.set(id,newVar);
+            return true;
+        } 
+        console.log("ERROR la variable " + id + " ya existe")
+        return false;
+    }
+
+    existsFunction(id) {
+        var sc= null;
+
+        for(sc = this;sc != null;sc = sc.prev){
+            if(sc.funcTable.has(id)) {
+                return sc.funcTable.get(id);
+            }
+        }
+        return null;
+    }
+    
+    insertFunction(id,type,dim,paramsList) {
+        const newVar = {
+            type:type,
+            dim:dim,
+            paramsList:paramsList
+        }
+
+        if(!this.existsFunction(id)) {
+            this.funcTable.set(id,newVar);
             return true;
         } 
         console.log("ERROR la variable " + id + " ya existe")

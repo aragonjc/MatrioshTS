@@ -9,7 +9,7 @@ class While {
         this.stmt = stmt;
     }
 
-    translate(scope) {
+    translate(scope,returnlbl,breaklbl,continuelbl) {
 
         let entryLabel = 'L'+scope.getNewLabel();
         let exitLabel = 'L'+scope.getNewLabel();
@@ -20,7 +20,7 @@ class While {
         let Statement = '';
 
         newTsObject.code3d += entryLabel + ':\n';
-        E = this.exp.translate(scope);
+        E = this.exp.translate(scope,returnlbl,breaklbl,continuelbl);
         newTsObject.code3d += E.code3d;
         newTsObject.code3d += 'if('+E.pointer+') goto '+bodyLabel+';\n'
         newTsObject.code3d += 'goto '+exitLabel+';\n'
@@ -28,7 +28,7 @@ class While {
         const newScope = new Scope(scope,scope.terminal,scope.label);
 
         this.stmt.forEach(element => {
-            Statement += element.translate(newScope).code3d;
+            Statement += element.translate(newScope,returnlbl,breaklbl,continuelbl).code3d;
         });
         //Statement = this.stmt.translate(newScope)
         newTsObject.code3d += Statement

@@ -9,8 +9,8 @@ class Variable {
         this.defvarlast = deflast;
     }
 
-    translate(scope) {
-        const objdef = this.deflast.translate(scope)
+    translate(scope,returnlbl,breaklbl,continuelbl) {
+        const objdef = this.deflast.translate(scope,returnlbl,breaklbl,continuelbl)
         let type = objdef.type;
         let valueType = objdef.value.type;
         let newObj = new tsObject(0,0,null,type);
@@ -22,6 +22,7 @@ class Variable {
             if(objdef.dim == 0) {
                 
                 if(scope.prev != null) {
+                    
                     newObj.code3d += objdef.value.code3d;
                     let newTemp = 't'+scope.getNewTemp();
                     let saveTemp = 't'+scope.getNewTemp();

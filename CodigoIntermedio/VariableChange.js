@@ -8,13 +8,13 @@ class VariableChange {
         this.asingLast = asingLast;
     }
 
-    translate(scope) {
+    translate(scope,returnlbl,breaklbl,continuelbl) {
         
         const variableObj = scope.findVariable(this.id);
         if(variableObj) {
 
             if(this.asingLast.tipo == '=') {
-                const E = this.asingLast.value.translate(scope);
+                const E = this.asingLast.value.translate(scope,returnlbl,breaklbl,continuelbl);
                 if(variableObj.type == E.type) {
                     
                     let newCod3dObj = new tsObject(0,0,null,null);
@@ -40,7 +40,7 @@ class VariableChange {
                 let varObj = new Id(0,0,this.id);
                 //let op2 = this.asingLast.value;
                 let result =  new Operation(varObj,new tsObject(0,0,'1','number'),this.asingLast.tipo,0,0);
-                result = result.translate(scope);
+                result = result.translate(scope,returnlbl,breaklbl,continuelbl);
 
                 if(variableObj.type == result.type) {
                     let newCod3dObj = new tsObject(0,0,null,null);
@@ -65,7 +65,7 @@ class VariableChange {
                 let varObj = new Id(0,0,this.id);
                 let op2 = this.asingLast.value;
                 let result =  new Operation(varObj,op2,this.asingLast.tipo,0,0);
-                result = result.translate(scope);
+                result = result.translate(scope,returnlbl,breaklbl,continuelbl);
 
                 if(variableObj.type == result.type) {
                     let newCod3dObj = new tsObject(0,0,null,null);

@@ -14,7 +14,7 @@ class tsObject{
     }
 
     
-    translate(scope) {
+    translate(scope,returnlbl,breaklbl,continuelbl) {
 
         if(this.type == 'string') {
             let string = this.value.substring(1,this.value.length-1);

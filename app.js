@@ -21,7 +21,7 @@ let terminals = 'float t1';
 
 
 ast.forEach(element => {
-   let r = element.translate(Scope); 
+   let r = element.translate(Scope,null,null); 
    code += r.code3d;
    //console.log(r.code3d)
 });
