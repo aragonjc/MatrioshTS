@@ -8,12 +8,12 @@ class If {
         this.iflast = iflast;
     }
 
-    translate(scope,returnlbl,breaklbl,continuelbl) {
+    translate(scope,returnlbl,breaklbl,continuelbl,funcID) {
         
         
         if(this.exp) {
 
-            const E = this.exp.translate(scope,returnlbl,breaklbl,continuelbl);
+            const E = this.exp.translate(scope,returnlbl,breaklbl,continuelbl,funcID);
             if(E.type == 'boolean' || E.type == 'number') {
                 let newTsObj = new tsObject(0,0,null,null);
                 newTsObj.code3d += E.code3d;
@@ -27,7 +27,7 @@ class If {
                 const newScope = new Scope(scope,scope.terminal,scope.label)
                 let Statement = '';
                 this.stmt.forEach(element => {
-                    Statement += element.translate(newScope,returnlbl,breaklbl,continuelbl).code3d;
+                    Statement += element.translate(newScope,returnlbl,breaklbl,continuelbl,funcID).code3d;
                 });
                 scope.terminal = newScope.terminal;
                 scope.label = newScope.label;
@@ -37,7 +37,7 @@ class If {
                 newTsObj.code3d += fLabel + ':\n\n';
     
                 if(this.iflast) {
-                    const last = this.iflast.translate(scope,returnlbl,breaklbl,continuelbl);
+                    const last = this.iflast.translate(scope,returnlbl,breaklbl,continuelbl,funcID);
                     newTsObj.code3d += last.code3d;
                 }
                 newTsObj.code3d += exitLabel + ':\n\n';
@@ -52,7 +52,7 @@ class If {
             const newScope = new Scope(scope,scope.terminal,scope.label)
             let st = '';
             this.stmt.forEach(element => {
-                st += element.translate(newScope,returnlbl,breaklbl,continuelbl).code3d;
+                st += element.translate(newScope,returnlbl,breaklbl,continuelbl,funcID).code3d;
             });
             let Statement = new tsObject(0,0,null,null);
             Statement.code3d = st;

@@ -13,7 +13,7 @@ class For2 {
         this.stmt = stmt;
     }
 
-    translate(scope,returnlbl,breaklbl,continuelbl) {
+    translate(scope,returnlbl,breaklbl,continuelbl,funcID) {
 
         if(this.id.constructor.name == "Id") {
             
@@ -34,11 +34,11 @@ class For2 {
             //let prevForScope = new Scope(scope,scope.terminal,scope.label);
             //asignVar = asignVar.translate(prevForScope);
             let chngVar = new VariableChange(id,{tipo:'=',value:this.exp});
-            chngVar = chngVar.translate(scope,returnlbl,breaklbl,continuelbl);
+            chngVar = chngVar.translate(scope,returnlbl,breaklbl,continuelbl,funcID);
 
             newTsObject.code3d +=  chngVar.code3d;
             newTsObject.code3d += Lloop + ':\n';
-            let condT = this.cond.translate(scope,returnlbl,breaklbl,continuelbl);
+            let condT = this.cond.translate(scope,returnlbl,breaklbl,continuelbl,funcID);
             newTsObject.code3d += condT.code3d;
 
             newTsObject.code3d += 'if(' + condT.pointer + ')goto '+lbody+';\n';
@@ -48,12 +48,12 @@ class For2 {
             
             let Statement = '';
             this.stmt.forEach(element => {
-                Statement += element.translate(newScope,returnlbl,breaklbl,continuelbl).code3d;
+                Statement += element.translate(newScope,returnlbl,breaklbl,continuelbl,funcID).code3d;
             });
             newTsObject.code3d += Statement;
             scope.terminal = newScope.terminal;
             scope.label = newScope.label;
-            let iter = this.iterate.translate(scope,returnlbl,breaklbl,continuelbl);
+            let iter = this.iterate.translate(scope,returnlbl,breaklbl,continuelbl,funcID);
             
             newTsObject.code3d += iter.code3d;
             newTsObject.code3d += 'goto '+Lloop+';\n';

@@ -9,7 +9,7 @@ class Switch {
         this.lastcase = lastcase;
     }
 
-    translate(scope,returnlbl,breaklbl,continuelbl) {
+    translate(scope,returnlbl,breaklbl,continuelbl,funcID) {
 
         let newTsObject = new tsObject(0,0,null,null);
 
@@ -32,7 +32,7 @@ class Switch {
                 element.stmt.forEach(obj => {
                     
                     let newScope = new Scope(scope,scope.terminal,scope.label);
-                    bodyCase += obj.translate(newScope,returnlbl,breaklbl,continuelbl).code3d;
+                    bodyCase += obj.translate(newScope,returnlbl,breaklbl,continuelbl,funcID).code3d;
                     scope.terminal = newScope.terminal;
                     scope.label = newScope.label;
                 })
@@ -47,7 +47,7 @@ class Switch {
 
         this.lastcase.forEach(obj => {
             let newScope = new Scope(scope,scope.terminal,scope.label);
-            stat += obj.translate(newScope,returnlbl,breaklbl,continuelbl).code3d;
+            stat += obj.translate(newScope,returnlbl,breaklbl,continuelbl,funcID).code3d;
             scope.terminal = newScope.terminal;
             scope.label = newScope.label;
         });
@@ -59,7 +59,7 @@ class Switch {
         this.firstcase.forEach(element => {
 
             let cond =  new Relational(this.exp,element.exp,'==',0,0);
-            cond = cond.translate(scope,returnlbl,breaklbl,continuelbl)
+            cond = cond.translate(scope,returnlbl,breaklbl,continuelbl,funcID)
             newTsObject.code3d += cond.code3d;
             newTsObject.code3d += 'if('+cond.pointer+')goto '+Labels[index]+';\n';
             index++;

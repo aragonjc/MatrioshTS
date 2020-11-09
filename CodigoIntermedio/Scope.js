@@ -63,11 +63,13 @@ class Scope {
         return null;
     }
     
-    insertFunction(id,type,dim,paramsList) {
+    insertFunction(id,type,dim,paramsList,returnTemp) {
         const newVar = {
             type:type,
             dim:dim,
-            paramsList:paramsList
+            paramsList:paramsList,
+            returnTemp:returnTemp,
+            returnValue:-1
         }
 
         if(!this.existsFunction(id)) {

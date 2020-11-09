@@ -145,20 +145,27 @@ Instruccion: llamadaFuncion { $$ = $1; }
 
 llamadaFuncion: id PL bracketOpen paramFunc bracketClose semicolon
 				{
-					$$ = new Print($4,0);
+					$$ = new callFunction($1,$2,$4);
 				}
+				/*{
+					$$ = new Print($4,0);
+				}*/
 ;
 
-PL:varLast
-	|;
+PL:varLast {$$=$1;}
+	|{$$=null;};
 
 
 paramFunc: paramFuncList { $$ = $1; }
 		|
 ;
 
-paramFuncList: paramFuncList comma E
-			  |E { $$ = $1; }
+paramFuncList: paramFuncList comma E 
+				{
+					$1.push($3);
+					$$ = $1;
+				}
+			  |E { $$ = [$1]; }
 ;
 
 funciones: function id bracketOpen funcParam bracketClose funcDec
@@ -342,8 +349,8 @@ varLast: sqBracketOpen exp sqBracketClose  auxP
 		| point id  auxP
 ;
 		
-auxP:varLast
-	|
+auxP:varLast {$$=$1;}
+	|{$$=null;}
 	;
 
 asignLastF:  igual E

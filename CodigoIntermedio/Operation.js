@@ -10,29 +10,29 @@ class Operation {
         this.column = column;
     }
 
-    translate(scope,returnlbl,breaklbl,continuelbl) {
+    translate(scope,returnlbl,breaklbl,continuelbl,funcID) {
         switch(this.op) {
             case '+':
-                return this.add(scope,returnlbl,breaklbl,continuelbl)
+                return this.add(scope,returnlbl,breaklbl,continuelbl,funcID)
             case '-':
-                return this.sub(scope,returnlbl,breaklbl,continuelbl)
+                return this.sub(scope,returnlbl,breaklbl,continuelbl,funcID)
             case '*':
-                return this.mul(scope,returnlbl,breaklbl,continuelbl)
+                return this.mul(scope,returnlbl,breaklbl,continuelbl,funcID)
             case '/':
-                return this.div(scope,returnlbl,breaklbl,continuelbl)
+                return this.div(scope,returnlbl,breaklbl,continuelbl,funcID)
             case '**':
-                return this.pow(scope,returnlbl,breaklbl,continuelbl)
+                return this.pow(scope,returnlbl,breaklbl,continuelbl,funcID)
             case '%':
-                return this.mod(scope,returnlbl,breaklbl,continuelbl)
+                return this.mod(scope,returnlbl,breaklbl,continuelbl,funcID)
             case '--':
-                return this.neg(scope,returnlbl,breaklbl,continuelbl)
+                return this.neg(scope,returnlbl,breaklbl,continuelbl,funcID)
         }
     }
 
-    add(scope,returnlbl,breaklbl,continuelbl) {
+    add(scope,returnlbl,breaklbl,continuelbl,funcID) {
         let newTsObject;
-        const obj1 = this.nodeLeft.translate(scope,returnlbl,breaklbl,continuelbl)
-        const obj2 = this.nodeRight.translate(scope,returnlbl,breaklbl,continuelbl)
+        const obj1 = this.nodeLeft.translate(scope,returnlbl,breaklbl,continuelbl,funcID)
+        const obj2 = this.nodeRight.translate(scope,returnlbl,breaklbl,continuelbl,funcID)
         if(obj1.type == 'number' && obj2.type == 'number') {
             this.type = 'number';
         } else if (obj1.type == 'string' && obj2.type == 'string') {
@@ -234,10 +234,10 @@ class Operation {
         return newTsObject
     }
 
-    sub(scope,returnlbl,breaklbl,continuelbl) {
+    sub(scope,returnlbl,breaklbl,continuelbl,funcID) {
         let newTsObject;
-        const obj1 = this.nodeLeft.translate(scope,returnlbl,breaklbl,continuelbl)
-        const obj2 = this.nodeRight.translate(scope,returnlbl,breaklbl,continuelbl)
+        const obj1 = this.nodeLeft.translate(scope,returnlbl,breaklbl,continuelbl,funcID)
+        const obj2 = this.nodeRight.translate(scope,returnlbl,breaklbl,continuelbl,funcID)
         if(obj1.type == 'number' && obj2.type == 'number') {
             this.type = 'number';
         } else {
@@ -255,10 +255,10 @@ class Operation {
         return newTsObject;
     }
 
-    mul(scope,returnlbl,breaklbl,continuelbl) {
+    mul(scope,returnlbl,breaklbl,continuelbl,funcID) {
         let newTsObject;
-        const obj1 = this.nodeLeft.translate(scope,returnlbl,breaklbl,continuelbl)
-        const obj2 = this.nodeRight.translate(scope,returnlbl,breaklbl,continuelbl)
+        const obj1 = this.nodeLeft.translate(scope,returnlbl,breaklbl,continuelbl,funcID)
+        const obj2 = this.nodeRight.translate(scope,returnlbl,breaklbl,continuelbl,funcID)
         if(obj1.type == 'number' && obj2.type == 'number') {
             this.type = 'number';
         } else {
@@ -276,10 +276,10 @@ class Operation {
         return newTsObject;
     }
 
-    div(scope,returnlbl,breaklbl,continuelbl) {
+    div(scope,returnlbl,breaklbl,continuelbl,funcID) {
         let newTsObject;
-        const obj1 = this.nodeLeft.translate(scope,returnlbl,breaklbl,continuelbl)
-        const obj2 = this.nodeRight.translate(scope,returnlbl,breaklbl,continuelbl)
+        const obj1 = this.nodeLeft.translate(scope,returnlbl,breaklbl,continuelbl,funcID)
+        const obj2 = this.nodeRight.translate(scope,returnlbl,breaklbl,continuelbl,funcID)
         if(obj1.type == 'number' && obj2.type == 'number') {
             this.type = 'number';
         } else {
@@ -297,10 +297,10 @@ class Operation {
         return newTsObject;
     }
 
-    mod(scope,returnlbl,breaklbl,continuelbl) {
+    mod(scope,returnlbl,breaklbl,continuelbl,funcID) {
         let newTsObject;
-        const obj1 = this.nodeLeft.translate(scope,returnlbl,breaklbl,continuelbl)
-        const obj2 = this.nodeRight.translate(scope,returnlbl,breaklbl,continuelbl)
+        const obj1 = this.nodeLeft.translate(scope,returnlbl,breaklbl,continuelbl,funcID)
+        const obj2 = this.nodeRight.translate(scope,returnlbl,breaklbl,continuelbl,funcID)
         if(obj1.type == 'number' && obj2.type == 'number') {
             this.type = 'number';
         } else {
@@ -318,9 +318,9 @@ class Operation {
         return newTsObject;
     }
 
-    neg(scope,returnlbl,breaklbl,continuelbl) {
+    neg(scope,returnlbl,breaklbl,continuelbl,funcID) {
         let newTsObject;
-        const obj1 = this.nodeLeft.translate(scope,returnlbl,breaklbl,continuelbl)
+        const obj1 = this.nodeLeft.translate(scope,returnlbl,breaklbl,continuelbl,funcID)
         if(obj1.type == 'number') {
             this.type = 'number';
         } else {
@@ -337,10 +337,10 @@ class Operation {
         return newTsObject;
     }
 
-    pow(scope,returnlbl,breaklbl,continuelbl) {
+    pow(scope,returnlbl,breaklbl,continuelbl,funcID) {
         let newTsObject;
-        const obj1 = this.nodeLeft.translate(scope,returnlbl,breaklbl,continuelbl)
-        const obj2 = this.nodeRight.translate(scope,returnlbl,breaklbl,continuelbl)
+        const obj1 = this.nodeLeft.translate(scope,returnlbl,breaklbl,continuelbl,funcID)
+        const obj2 = this.nodeRight.translate(scope,returnlbl,breaklbl,continuelbl,funcID)
         if(obj1.type == 'number' && obj2.type == 'number') {
             this.type = 'number';
         } else {
