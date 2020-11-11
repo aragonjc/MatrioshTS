@@ -119,6 +119,8 @@
 	const Function = require('./CodigoIntermedio/Function.js');
 	const callFunction = require('./CodigoIntermedio/callFunction.js');
 	const Return = require('./CodigoIntermedio/Return.js');
+	const Break = require('./CodigoIntermedio/Break.js');
+	const Continue = require('./CodigoIntermedio/Continue.js');
 %}
 
 %start S
@@ -207,8 +209,8 @@ InstruccionI: llamadaFuncion {$$=$1;}
             |DOWHILE {$$=$1;}
             |SWITCH {$$=$1;}
             |FOR {$$=$1;}
-            |Break semicolon
-            |Continue semicolon
+            |Break semicolon {$$=new Break();}
+            |Continue semicolon {$$=new Continue();}
             |return OP { $$=new Return($2); }
 
 ;

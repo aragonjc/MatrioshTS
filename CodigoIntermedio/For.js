@@ -42,13 +42,16 @@ class For {
         let newScope = new Scope(prevForScope,prevForScope.terminal,prevForScope.label);
         
         let Statement = '';
+        let continueLABEL = 'L' + prevForScope.getNewLabel();
         this.stmt.forEach(element => {
-            Statement += element.translate(newScope,returnlbl,breaklbl,continuelbl,funcID).code3d;
+            Statement += element.translate(newScope,returnlbl,LExit,continueLABEL,funcID).code3d;
         });
         newTsObject.code3d += Statement;
         prevForScope.terminal = newScope.terminal;
         prevForScope.label = newScope.label;
 
+        
+        newTsObject.code3d += continueLABEL + ':\n';
         let iter = this.iterate.translate(prevForScope,returnlbl,breaklbl,continuelbl,funcID);
         
         newTsObject.code3d += iter.code3d;

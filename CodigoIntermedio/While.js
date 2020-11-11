@@ -28,7 +28,7 @@ class While {
         const newScope = new Scope(scope,scope.terminal,scope.label);
 
         this.stmt.forEach(element => {
-            Statement += element.translate(newScope,returnlbl,breaklbl,continuelbl,funcID).code3d;
+            Statement += element.translate(newScope,returnlbl,exitLabel,entryLabel,funcID).code3d;
         });
         //Statement = this.stmt.translate(newScope)
         newTsObject.code3d += Statement

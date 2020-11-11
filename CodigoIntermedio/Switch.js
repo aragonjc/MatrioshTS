@@ -32,7 +32,7 @@ class Switch {
                 element.stmt.forEach(obj => {
                     
                     let newScope = new Scope(scope,scope.terminal,scope.label);
-                    bodyCase += obj.translate(newScope,returnlbl,breaklbl,continuelbl,funcID).code3d;
+                    bodyCase += obj.translate(newScope,returnlbl,lfinLabel,continuelbl,funcID).code3d;
                     scope.terminal = newScope.terminal;
                     scope.label = newScope.label;
                 })
