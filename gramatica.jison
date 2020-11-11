@@ -121,6 +121,7 @@
 	const Return = require('./CodigoIntermedio/Return.js');
 	const Break = require('./CodigoIntermedio/Break.js');
 	const Continue = require('./CodigoIntermedio/Continue.js');
+	const Ternary = require('./CodigoIntermedio/Ternary.js');
 %}
 
 %start S
@@ -426,7 +427,7 @@ types: number  typesList
 		}
 ;
 
-typesList: typesL
+typesList: typesL {$$=$1;}
 		  |{$$ = 0;}
 ;
 
@@ -513,6 +514,9 @@ exp: exp mas exp
 		$$ =$2;
 	}
 	| exp question exp dosPuntos exp
+	{
+		$$ = new Ternary($1,$3,$5);	
+	}
 	| exp increment
 	{
 		$$ = new IncDecOp($1,'+');
