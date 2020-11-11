@@ -9,8 +9,8 @@ class Variable {
         this.defvarlast = deflast;
     }
 
-    translate(scope,returnlbl,breaklbl,continuelbl,funcID) {
-        const objdef = this.deflast.translate(scope,returnlbl,breaklbl,continuelbl,funcID)
+    translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter) {
+        const objdef = this.deflast.translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter)
         let type = objdef.type;
         let valueType = objdef.value.type;
         let newObj = new tsObject(0,0,null,type);

@@ -9,7 +9,7 @@ class Switch {
         this.lastcase = lastcase;
     }
 
-    translate(scope,returnlbl,breaklbl,continuelbl,funcID) {
+    translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter) {
 
         let newTsObject = new tsObject(0,0,null,null);
 
@@ -18,7 +18,9 @@ class Switch {
 
         let lxLabel = 'L' + scope.getNewLabel();
         let lfinLabel = 'L' + scope.getNewLabel();
+        let tempStack = 't' + scope.getNewTemp();
 
+        newTsObject.code3d += tempStack + '= P;\n';
         newTsObject.code3d += 'goto '+lxLabel+';\n';
 
         if(this.firstcase != null) {
@@ -32,7 +34,7 @@ class Switch {
                 element.stmt.forEach(obj => {
                     
                     let newScope = new Scope(scope,scope.terminal,scope.label);
-                    bodyCase += obj.translate(newScope,returnlbl,lfinLabel,continuelbl,funcID).code3d;
+                    bodyCase += obj.translate(newScope,returnlbl,lfinLabel,continuelbl,funcID,sCounter).code3d;
                     scope.terminal = newScope.terminal;
                     scope.label = newScope.label;
                 })
@@ -47,7 +49,7 @@ class Switch {
 
         this.lastcase.forEach(obj => {
             let newScope = new Scope(scope,scope.terminal,scope.label);
-            stat += obj.translate(newScope,returnlbl,breaklbl,continuelbl,funcID).code3d;
+            stat += obj.translate(newScope,returnlbl,breaklbl,continuelbl,funcID,sCounter).code3d;
             scope.terminal = newScope.terminal;
             scope.label = newScope.label;
         });
@@ -59,7 +61,7 @@ class Switch {
         this.firstcase.forEach(element => {
 
             let cond =  new Relational(this.exp,element.exp,'==',0,0);
-            cond = cond.translate(scope,returnlbl,breaklbl,continuelbl,funcID)
+            cond = cond.translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter)
             newTsObject.code3d += cond.code3d;
             newTsObject.code3d += 'if('+cond.pointer+')goto '+Labels[index]+';\n';
             index++;
@@ -68,7 +70,7 @@ class Switch {
 
         newTsObject.code3d += 'goto '+deflbl+';\n';
         newTsObject.code3d += lfinLabel + ':\n';
-
+        newTsObject.code3d += 'P = '+tempStack+';\n';
 
         return newTsObject;
 

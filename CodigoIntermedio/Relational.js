@@ -9,26 +9,26 @@ class Relational {
         this.column = column;
     }
     
-    translate(scope,returnlbl,breaklbl,continuelbl,funcID) {
+    translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter) {
         switch(this.op) {
             case '>':
-                return this.greater(scope,returnlbl,breaklbl,continuelbl,funcID)
+                return this.greater(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter)
             case '<':
-                return this.less(scope,returnlbl,breaklbl,continuelbl,funcID)
+                return this.less(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter)
             case '>=':
-                return this.greaterE(scope,returnlbl,breaklbl,continuelbl,funcID)
+                return this.greaterE(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter)
             case '<=':
-                return this.lessE(scope,returnlbl,breaklbl,continuelbl,funcID)
+                return this.lessE(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter)
             case '==':
-                return this.equal(scope,returnlbl,breaklbl,continuelbl,funcID)
+                return this.equal(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter)
             case '!=':
-                return this.notEqual(scope,returnlbl,breaklbl,continuelbl,funcID)
+                return this.notEqual(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter)
         }
     }
 
-    greater(scope,returnlbl,breaklbl,continuelbl) {
-        const obj1 = this.nodeLeft.translate(scope,returnlbl,breaklbl,continuelbl,funcID);
-        const obj2 = this.nodeRight.translate(scope,returnlbl,breaklbl,continuelbl,funcID);
+    greater(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter) {
+        const obj1 = this.nodeLeft.translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter);
+        const obj2 = this.nodeRight.translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter);
         let type = null;
         if(obj1 == null || obj2 == null || obj1 == undefined || obj2 == undefined) {
             console.log("ERROR");
@@ -58,9 +58,9 @@ class Relational {
         return newTSObject;
     }
 
-    less(scope,returnlbl,breaklbl,continuelbl) {
-        const obj1 = this.nodeLeft.translate(scope,returnlbl,breaklbl,continuelbl,funcID);
-        const obj2 = this.nodeRight.translate(scope,returnlbl,breaklbl,continuelbl,funcID);
+    less(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter) {
+        const obj1 = this.nodeLeft.translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter);
+        const obj2 = this.nodeRight.translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter);
         let type = null;
         if(obj1 == null || obj2 == null || obj1 == undefined || obj2 == undefined) {
             console.log("ERROR");
@@ -87,9 +87,9 @@ class Relational {
         return newTSObject;
     }
 
-    greaterE(scope,returnlbl,breaklbl,continuelbl) {
-        const obj1 = this.nodeLeft.translate(scope,returnlbl,breaklbl,continuelbl,funcID);
-        const obj2 = this.nodeRight.translate(scope,returnlbl,breaklbl,continuelbl,funcID);
+    greaterE(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter) {
+        const obj1 = this.nodeLeft.translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter);
+        const obj2 = this.nodeRight.translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter);
         let type = null;
         if(obj1 == null || obj2 == null || obj1 == undefined || obj2 == undefined) {
             console.log("ERROR");
@@ -116,9 +116,9 @@ class Relational {
         return newTSObject;
     }
 
-    lessE(scope,returnlbl,breaklbl,continuelbl) {
-        const obj1 = this.nodeLeft.translate(scope,returnlbl,breaklbl,continuelbl,funcID);
-        const obj2 = this.nodeRight.translate(scope,returnlbl,breaklbl,continuelbl,funcID);
+    lessE(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter) {
+        const obj1 = this.nodeLeft.translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter);
+        const obj2 = this.nodeRight.translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter);
         let type = null;
         if(obj1 == null || obj2 == null || obj1 == undefined || obj2 == undefined) {
             console.log("ERROR");
@@ -145,10 +145,10 @@ class Relational {
         return newTSObject;
     }
 
-    equal(scope,returnlbl,breaklbl,continuelbl,funcID) {
+    equal(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter) {
 
-        const obj1 = this.nodeLeft.translate(scope,returnlbl,breaklbl,continuelbl,funcID);
-        const obj2 = this.nodeRight.translate(scope,returnlbl,breaklbl,continuelbl,funcID);
+        const obj1 = this.nodeLeft.translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter);
+        const obj2 = this.nodeRight.translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter);
         let type = null;
         let kind = null;
         if(obj1 == null || obj2 == null || obj1 == undefined || obj2 == undefined) {
@@ -194,9 +194,9 @@ class Relational {
         return newTSObject;
     }
 
-    notEqual(scope,returnlbl,breaklbl,continuelbl) {
-        const obj1 = this.nodeLeft.translate(scope,returnlbl,breaklbl,continuelbl,funcID);
-        const obj2 = this.nodeRight.translate(scope,returnlbl,breaklbl,continuelbl,funcID);
+    notEqual(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter) {
+        const obj1 = this.nodeLeft.translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter);
+        const obj2 = this.nodeRight.translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter);
         let type = null;
         let kind = null;
         if(obj1 == null || obj2 == null || obj1 == undefined || obj2 == undefined) {

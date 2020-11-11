@@ -8,13 +8,14 @@ class Function {
         this.funcdec = funcdec;
     }
 
-    translate(scope,returnlbl,breaklbl,continuelbl,funcID) {
+    translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter) {
         
         const ftype = this.funcdec.type;
         const type = ftype.type;
         const list = ftype.list;
         const stmt = this.funcdec.stmt
-        
+        let StackCounter = 0;
+
         const newScope = new Scope(scope,scope.terminal,scope.label);
         //console.log(this.params);
         let paramsList = [];
@@ -40,13 +41,15 @@ class Function {
         //console.log(scope.funcTable);
 
         stmt.forEach(element => {
-            StatementCod3d += element.translate(newScope,returnLabel,breaklbl,continuelbl,this.id).code3d;
+            StatementCod3d += element.translate(newScope,returnLabel,breaklbl,continuelbl,this.id,sCounter).code3d;
         });
         newTsObject.code3d += StatementCod3d;
         newTsObject.code3d += returnLabel + ':\n';
+        //newTsObject.code3d += 'P = '+tempStack+';\n';
         newTsObject.code3d += 'return;\n'
         newTsObject.code3d += '}\n';
         
+
         scope.terminal = newScope.terminal;
         scope.label = newScope.label;
 

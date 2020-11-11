@@ -6,8 +6,8 @@ class defLast {
         this.value = value;
     }
     
-    translate(scope,returnlbl,breaklbl,continuelbl,funcID) {
-        const E = this.value.translate(scope,returnlbl,breaklbl,continuelbl,funcID);
+    translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter) {
+        const E = this.value.translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter);
         return {type:this.type.type,value:E,dim:this.type.list}
     }
 }

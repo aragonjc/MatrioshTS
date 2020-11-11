@@ -10,29 +10,29 @@ class Operation {
         this.column = column;
     }
 
-    translate(scope,returnlbl,breaklbl,continuelbl,funcID) {
+    translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter) {
         switch(this.op) {
             case '+':
-                return this.add(scope,returnlbl,breaklbl,continuelbl,funcID)
+                return this.add(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter)
             case '-':
-                return this.sub(scope,returnlbl,breaklbl,continuelbl,funcID)
+                return this.sub(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter)
             case '*':
-                return this.mul(scope,returnlbl,breaklbl,continuelbl,funcID)
+                return this.mul(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter)
             case '/':
-                return this.div(scope,returnlbl,breaklbl,continuelbl,funcID)
+                return this.div(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter)
             case '**':
-                return this.pow(scope,returnlbl,breaklbl,continuelbl,funcID)
+                return this.pow(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter)
             case '%':
-                return this.mod(scope,returnlbl,breaklbl,continuelbl,funcID)
+                return this.mod(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter)
             case '--':
-                return this.neg(scope,returnlbl,breaklbl,continuelbl,funcID)
+                return this.neg(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter)
         }
     }
 
-    add(scope,returnlbl,breaklbl,continuelbl,funcID) {
+    add(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter) {
         let newTsObject;
-        const obj1 = this.nodeLeft.translate(scope,returnlbl,breaklbl,continuelbl,funcID)
-        const obj2 = this.nodeRight.translate(scope,returnlbl,breaklbl,continuelbl,funcID)
+        const obj1 = this.nodeLeft.translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter)
+        const obj2 = this.nodeRight.translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter)
         if(obj1.type == 'number' && obj2.type == 'number') {
             this.type = 'number';
         } else if (obj1.type == 'string' && obj2.type == 'string') {
@@ -234,10 +234,10 @@ class Operation {
         return newTsObject
     }
 
-    sub(scope,returnlbl,breaklbl,continuelbl,funcID) {
+    sub(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter) {
         let newTsObject;
-        const obj1 = this.nodeLeft.translate(scope,returnlbl,breaklbl,continuelbl,funcID)
-        const obj2 = this.nodeRight.translate(scope,returnlbl,breaklbl,continuelbl,funcID)
+        const obj1 = this.nodeLeft.translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter)
+        const obj2 = this.nodeRight.translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter)
         if(obj1.type == 'number' && obj2.type == 'number') {
             this.type = 'number';
         } else {
@@ -255,10 +255,10 @@ class Operation {
         return newTsObject;
     }
 
-    mul(scope,returnlbl,breaklbl,continuelbl,funcID) {
+    mul(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter) {
         let newTsObject;
-        const obj1 = this.nodeLeft.translate(scope,returnlbl,breaklbl,continuelbl,funcID)
-        const obj2 = this.nodeRight.translate(scope,returnlbl,breaklbl,continuelbl,funcID)
+        const obj1 = this.nodeLeft.translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter)
+        const obj2 = this.nodeRight.translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter)
         if(obj1.type == 'number' && obj2.type == 'number') {
             this.type = 'number';
         } else {
@@ -276,10 +276,10 @@ class Operation {
         return newTsObject;
     }
 
-    div(scope,returnlbl,breaklbl,continuelbl,funcID) {
+    div(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter) {
         let newTsObject;
-        const obj1 = this.nodeLeft.translate(scope,returnlbl,breaklbl,continuelbl,funcID)
-        const obj2 = this.nodeRight.translate(scope,returnlbl,breaklbl,continuelbl,funcID)
+        const obj1 = this.nodeLeft.translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter)
+        const obj2 = this.nodeRight.translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter)
         if(obj1.type == 'number' && obj2.type == 'number') {
             this.type = 'number';
         } else {
@@ -297,10 +297,10 @@ class Operation {
         return newTsObject;
     }
 
-    mod(scope,returnlbl,breaklbl,continuelbl,funcID) {
+    mod(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter) {
         let newTsObject;
-        const obj1 = this.nodeLeft.translate(scope,returnlbl,breaklbl,continuelbl,funcID)
-        const obj2 = this.nodeRight.translate(scope,returnlbl,breaklbl,continuelbl,funcID)
+        const obj1 = this.nodeLeft.translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter)
+        const obj2 = this.nodeRight.translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter)
         if(obj1.type == 'number' && obj2.type == 'number') {
             this.type = 'number';
         } else {
@@ -318,9 +318,9 @@ class Operation {
         return newTsObject;
     }
 
-    neg(scope,returnlbl,breaklbl,continuelbl,funcID) {
+    neg(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter) {
         let newTsObject;
-        const obj1 = this.nodeLeft.translate(scope,returnlbl,breaklbl,continuelbl,funcID)
+        const obj1 = this.nodeLeft.translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter)
         if(obj1.type == 'number') {
             this.type = 'number';
         } else {
@@ -337,10 +337,10 @@ class Operation {
         return newTsObject;
     }
 
-    pow(scope,returnlbl,breaklbl,continuelbl,funcID) {
+    pow(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter) {
         let newTsObject;
-        const obj1 = this.nodeLeft.translate(scope,returnlbl,breaklbl,continuelbl,funcID)
-        const obj2 = this.nodeRight.translate(scope,returnlbl,breaklbl,continuelbl,funcID)
+        const obj1 = this.nodeLeft.translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter)
+        const obj2 = this.nodeRight.translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter)
         if(obj1.type == 'number' && obj2.type == 'number') {
             this.type = 'number';
         } else {

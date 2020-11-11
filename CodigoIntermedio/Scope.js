@@ -7,6 +7,7 @@ class Scope {
         this.table = new Map();
         this.funcTable = new Map();
         this.prevSize = 0;
+        this.isFuncScope = null;
         if(prev != null) {
             this.prevSize = prev.table.size;
         }

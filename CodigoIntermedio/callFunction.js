@@ -8,12 +8,12 @@ class callFunction {
         this.paramFunc = paramFunc;
     }
 
-    translate(scope,returnlbl,breaklbl,continuelbl,funcID) {
+    translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter) {
         let func = scope.existsFunction(this.id);
 
         if(this.id == 'console') {
             const prnt = new Print(this.paramFunc,0);
-            return prnt.translate(scope,returnlbl,breaklbl,continuelbl,funcID);
+            return prnt.translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter);
         } else {
             if(func) {
 
@@ -22,23 +22,24 @@ class callFunction {
                 if(this.paramFunc.length == func.paramsList.length) {
                     let prevTemps = [];
 
+                    //RECURSIVIDAD
                     if(funcID) {
                         if(funcID == this.id) {
                             for(let i = 0;i<func.paramsList.length;i++) {
                                 let ptemp = 't' + scope.getNewTemp()
                                 prevTemps.push(ptemp);
                                 newTsObject.code3d += ptemp + '=Stack[(int)'+func.paramsList[i]+'];\n';
-                                console.log(prevTemps)
+                                
                             }
                         }
                     }
 
                     let plist = '';
-                    let newTemp = 't' + scope.getNewTemp()
+                    //let newTemp = 't' + scope.getNewTemp()
                     
-                    newTsObject.code3d += newTemp +'=P;\n';
+                    //newTsObject.code3d += newTemp +'=P;\n';
                     for (let i = 0; i < this.paramFunc.length; i++) {
-                        let obj = this.paramFunc[i].translate(scope,returnlbl,breaklbl,continuelbl,this.id);
+                        let obj = this.paramFunc[i].translate(scope,returnlbl,breaklbl,continuelbl,this.id,sCounter);
                         plist += obj.code3d;
                         plist += func.paramsList[i] + '=P;\n';
                         plist += 'Stack[(int)'+func.paramsList[i]+']='+obj.pointer+';\n';
@@ -50,14 +51,13 @@ class callFunction {
                     let funcs = scope.existsFunction(this.id);
 
                     if(funcs.returnValue == 0) {
-                        let tempA = 't'+scope.getNewTemp()
-                        newTsObject.code3d += tempA + '=' + newTemp + ';\n';
-                        //newTsObject.code3d += 'Stack[(int)'+tempA+'] = '+funcs.returnTemp+';\n';
+                        
                         newTsObject.pointer = funcs.returnTemp;
                         newTsObject.type = funcs.type;
                     }
-                    newTsObject.code3d += 'P='+newTemp+'+2;\n';
+                    //newTsObject.code3d += 'P='+newTemp+';\n';
 
+                    //RECURSIVIDAD
                     if(funcID) {
                         if(funcID == this.id) {
                             for(let i = 0;i<func.paramsList.length;i++) {

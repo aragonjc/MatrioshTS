@@ -13,7 +13,7 @@ class For {
         this.stmt = stmt;
     }
 
-    translate(scope,returnlbl,breaklbl,continuelbl,funcID) {
+    translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter) {
         
         
         let Lloop = 'L'+scope.getNewLabel()
@@ -27,13 +27,13 @@ class For {
         newTsObject.code3d += tempStack + '= P;\n';
         let asignVar = new Variables(this.asign,this.id,new defLast({type:'number',list:0},this.expId),null);
         let prevForScope = new Scope(scope,scope.terminal,scope.label);
-        asignVar = asignVar.translate(prevForScope,returnlbl,breaklbl,continuelbl,funcID);
+        asignVar = asignVar.translate(prevForScope,returnlbl,breaklbl,continuelbl,funcID,sCounter);
         //scope.terminal = prevForScope.terminal;
         //scope.label = prevForScope.label;
         //let newScope = new Scope(prevForScope,prevForScope.terminal,prevForScope.label);
         newTsObject.code3d +=  asignVar.code3d;
         newTsObject.code3d += Lloop + ':\n';
-        let condT = this.cond.translate(prevForScope,returnlbl,breaklbl,continuelbl,funcID);
+        let condT = this.cond.translate(prevForScope,returnlbl,breaklbl,continuelbl,funcID,sCounter);
         newTsObject.code3d += condT.code3d;
 
         newTsObject.code3d += 'if(' + condT.pointer + ')goto '+lbody+';\n';
@@ -44,7 +44,7 @@ class For {
         let Statement = '';
         let continueLABEL = 'L' + prevForScope.getNewLabel();
         this.stmt.forEach(element => {
-            Statement += element.translate(newScope,returnlbl,LExit,continueLABEL,funcID).code3d;
+            Statement += element.translate(newScope,returnlbl,LExit,continueLABEL,funcID,sCounter).code3d;
         });
         newTsObject.code3d += Statement;
         prevForScope.terminal = newScope.terminal;
@@ -52,7 +52,7 @@ class For {
 
         
         newTsObject.code3d += continueLABEL + ':\n';
-        let iter = this.iterate.translate(prevForScope,returnlbl,breaklbl,continuelbl,funcID);
+        let iter = this.iterate.translate(prevForScope,returnlbl,breaklbl,continuelbl,funcID,sCounter);
         
         newTsObject.code3d += iter.code3d;
         newTsObject.code3d += 'goto '+Lloop+';\n';

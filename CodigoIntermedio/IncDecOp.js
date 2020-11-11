@@ -7,13 +7,13 @@ class IncDecOp {
         this.op = op;
     }
 
-    translate(scope,returnlbl,breaklbl,continuelbl,funcID) {
+    translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter) {
         let E = new tsObject(0,0,1,'number');
         let Op = new Operation(this.exp,E,this.op,0,0);
         if(this.exp.constructor.name == 'Id') {
 
             let id = this.exp.id;
-            let r = Op.translate(scope,returnlbl,breaklbl,continuelbl,funcID);
+            let r = Op.translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter);
             let searchId = scope.findVariable(id);
 
             if(searchId) {
@@ -33,7 +33,7 @@ class IncDecOp {
             }
 
         }
-        return Op.translate(scope,returnlbl,breaklbl,continuelbl,funcID);
+        return Op.translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter);
         
     }
 

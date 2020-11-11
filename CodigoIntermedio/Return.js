@@ -5,7 +5,7 @@ class Return {
         this.value = value;
     }
 
-    translate(scope,returnlbl,breaklbl,continuelbl,funcID) {
+    translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter) {
         
         if(this.value) {
             
@@ -15,7 +15,7 @@ class Return {
             
             func.returnValue = 0;
             scope.changeFunction(funcID,func)
-            const rexp = this.value.translate(scope,returnlbl,breaklbl,continuelbl,funcID)
+            const rexp = this.value.translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter)
             let newTsObject = new tsObject(0,0,null,null);
             newTsObject.code3d += rexp.code3d;
             let newTemp = 't'+scope.getNewTemp()

@@ -9,20 +9,20 @@ class Logical {
         this.column = column;
     }
 
-    translate(scope,returnlbl,breaklbl,continuelbl,funcID) {
+    translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter) {
         switch(this.op) {
             case '||':
-                return this.or(scope,returnlbl,breaklbl,continuelbl,funcID)
+                return this.or(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter)
             case '&&':
-                return this.and(scope,returnlbl,breaklbl,continuelbl,funcID)
+                return this.and(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter)
             case '!':
-                return this.not(scope,returnlbl,breaklbl,continuelbl,funcID)
+                return this.not(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter)
         }
     }
 
-    or(scope,returnlbl,breaklbl,continuelbl,funcID) {
-        const obj1 = this.nodeLeft.translate(scope,returnlbl,breaklbl,continuelbl,funcID);
-        const obj2 = this.nodeRight.translate(scope,returnlbl,breaklbl,continuelbl,funcID);
+    or(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter) {
+        const obj1 = this.nodeLeft.translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter);
+        const obj2 = this.nodeRight.translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter);
         let type = null;
         if(obj1 == null || obj2 == null || obj1 == undefined || obj2 == undefined) {
             console.log("ERROR");
@@ -54,9 +54,9 @@ class Logical {
         return newTSObject;
     }
 
-    and(scope,returnlbl,breaklbl,continuelbl,funcID) {
-        const obj1 = this.nodeLeft.translate(scope,returnlbl,breaklbl,continuelbl,funcID);
-        const obj2 = this.nodeRight.translate(scope,returnlbl,breaklbl,continuelbl,funcID);
+    and(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter) {
+        const obj1 = this.nodeLeft.translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter);
+        const obj2 = this.nodeRight.translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter);
         let type = null;
         if(obj1 == null || obj2 == null || obj1 == undefined || obj2 == undefined) {
             console.log("ERROR");
@@ -88,9 +88,9 @@ class Logical {
         return newTSObject;
     }
 
-    not(scope,returnlbl,breaklbl,continuelbl,funcID) {
+    not(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter) {
 
-        const obj1 = this.nodeLeft.translate(scope,returnlbl,breaklbl,continuelbl,funcID);
+        const obj1 = this.nodeLeft.translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter);
         let type = null;
         if(obj1 == null || obj1 == undefined) {
             console.log("ERROR");

@@ -10,9 +10,9 @@ class Print {
         this.dataType = 'print';
     }
 
-    translate(scope,returnlbl,breaklbl,continuelbl,funcID) {
+    translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter) {
             
-        let printValue = this.value[0].translate(scope,returnlbl,breaklbl,continuelbl,funcID);
+        let printValue = this.value[0].translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter);
         
         this.code3d = '';
         
