@@ -20,12 +20,13 @@ class Function {
         let paramsList = [];
         const returnTemp = 't' + newScope.getNewTemp()
         this.params.forEach(element => {
+
             const newTemp = 't'+newScope.getNewTemp();
             const paramId = element.id;
             const paramType = element.types.type;
             const paramDim = element.types.list;
             paramsList.push(newTemp);
-            newScope.insertVariable(paramId,newTemp,paramType,paramDim);
+            newScope.insertVariable(paramId,newTemp,paramType,false,paramDim);
 
         });
         
@@ -35,8 +36,11 @@ class Function {
         let returnLabel = 'L'+ newScope.getNewLabel()
         newTsObject.code3d += 'void ' + this.id + '(){\n';
         let StatementCod3d = '';
+
+        //console.log(scope.funcTable);
+
         stmt.forEach(element => {
-            StatementCod3d += element.translate(newScope,returnlbl,breaklbl,continuelbl,funcID).code3d;
+            StatementCod3d += element.translate(newScope,returnLabel,breaklbl,continuelbl,this.id).code3d;
         });
         newTsObject.code3d += StatementCod3d;
         newTsObject.code3d += returnLabel + ':\n';

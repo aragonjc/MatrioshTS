@@ -118,6 +118,7 @@
 	const ForThree = require('./CodigoIntermedio/ForThree.js');
 	const Function = require('./CodigoIntermedio/Function.js');
 	const callFunction = require('./CodigoIntermedio/callFunction.js');
+	const Return = require('./CodigoIntermedio/Return.js');
 %}
 
 %start S
@@ -208,12 +209,12 @@ InstruccionI: llamadaFuncion {$$=$1;}
             |FOR {$$=$1;}
             |Break semicolon
             |Continue semicolon
-            |return OP
+            |return OP { $$=new Return($2); }
 
 ;
 
-OP: E semicolon
-	|semicolon
+OP: E semicolon{$$=$1;}
+	|semicolon {$$=null;}
 	;
 
 IF: if bracketOpen exp bracketClose curlyBraceOpen STMT curlyBraceClose IFLAST
@@ -546,6 +547,9 @@ exp: exp mas exp
 		$$ = new Id(0,0,$1);
 	}
 	| id PL bracketOpen paramFunc bracketClose
+	{
+		$$ = new callFunction($1,$2,$4);
+	}
 	| sqBracketOpen arrParam sqBracketClose sqBCKFIN
 ;
 

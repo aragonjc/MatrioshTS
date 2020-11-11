@@ -46,7 +46,7 @@ class Variable {
                 return newObj;
             }
         } else {
-            console.log("ERROR los tipos no son iguales");
+            console.log("ERROR los tipos no son igualesP");
         }
     }
 }

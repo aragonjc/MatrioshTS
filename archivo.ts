@@ -1,10 +1,12 @@
-function name(matrixLength:number,pivot:number):void {
-    let a:number = 5;
-    console.log(a);
-    console.log('\n');
-    console.log(matrixLength);
-    console.log('\n');
-    console.log(pivot);
-    console.log('\n');
+function factorial(n:number):number{
+    //console.trace(n);
+    
+    if (n==0){
+        return 1;
+    } else {
+
+        return n * factorial(n-1);
+    }
 }
-name(10,7);
+let a:number = factorial(3);
+console.log(a);

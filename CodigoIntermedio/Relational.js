@@ -145,7 +145,7 @@ class Relational {
         return newTSObject;
     }
 
-    equal(scope,returnlbl,breaklbl,continuelbl) {
+    equal(scope,returnlbl,breaklbl,continuelbl,funcID) {
 
         const obj1 = this.nodeLeft.translate(scope,returnlbl,breaklbl,continuelbl,funcID);
         const obj2 = this.nodeRight.translate(scope,returnlbl,breaklbl,continuelbl,funcID);

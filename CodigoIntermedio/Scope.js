@@ -80,6 +80,16 @@ class Scope {
         return false;
     }
 
+    changeFunction(id,value) {
+        var sc= null;
+
+        for(sc = this;sc != null;sc = sc.prev){
+            if(sc.funcTable.has(id)) {
+                sc.funcTable.set(id,value);
+            }
+        }
+    }
+
     existsLocalVariable(id){
         return this.table.has(id);
     }

@@ -17,15 +17,28 @@ class callFunction {
         } else {
             if(func) {
 
-                //console.log(this.paramFunc);
+                //console.log(func);
+                let newTsObject = new tsObject(0,0,null,null);
                 if(this.paramFunc.length == func.paramsList.length) {
-                    
-                    let newTsObject = new tsObject(0,0,null,null);
+                    let prevTemps = [];
+
+                    if(funcID) {
+                        if(funcID == this.id) {
+                            for(let i = 0;i<func.paramsList.length;i++) {
+                                let ptemp = 't' + scope.getNewTemp()
+                                prevTemps.push(ptemp);
+                                newTsObject.code3d += ptemp + '=Stack[(int)'+func.paramsList[i]+'];\n';
+                                console.log(prevTemps)
+                            }
+                        }
+                    }
+
                     let plist = '';
                     let newTemp = 't' + scope.getNewTemp()
+                    
                     newTsObject.code3d += newTemp +'=P;\n';
                     for (let i = 0; i < this.paramFunc.length; i++) {
-                        let obj = this.paramFunc[i].translate(scope,returnlbl,breaklbl,continuelbl,funcID);
+                        let obj = this.paramFunc[i].translate(scope,returnlbl,breaklbl,continuelbl,this.id);
                         plist += obj.code3d;
                         plist += func.paramsList[i] + '=P;\n';
                         plist += 'Stack[(int)'+func.paramsList[i]+']='+obj.pointer+';\n';
@@ -34,11 +47,24 @@ class callFunction {
                     
                     newTsObject.code3d += plist;
                     newTsObject.code3d += this.id + '();\n';
+                    let funcs = scope.existsFunction(this.id);
 
-                    //newTsObject.code3d += 'Stack[(int)'+newTemp+']='+func.returnTemp+';\n';
-                    
-                    newTsObject.code3d += 'P='+newTemp+'+1;\n';
-                    
+                    if(funcs.returnValue == 0) {
+                        let tempA = 't'+scope.getNewTemp()
+                        newTsObject.code3d += tempA + '=' + newTemp + ';\n';
+                        //newTsObject.code3d += 'Stack[(int)'+tempA+'] = '+funcs.returnTemp+';\n';
+                        newTsObject.pointer = funcs.returnTemp;
+                        newTsObject.type = funcs.type;
+                    }
+                    newTsObject.code3d += 'P='+newTemp+'+2;\n';
+
+                    if(funcID) {
+                        if(funcID == this.id) {
+                            for(let i = 0;i<func.paramsList.length;i++) {
+                                newTsObject.code3d += 'Stack[(int)'+func.paramsList[i]+']='+prevTemps[i]+';\n';
+                            }
+                        }
+                    }
                     return newTsObject;
 
                 } else {
