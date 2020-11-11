@@ -389,7 +389,7 @@ case 124:
 break;
 case 125:
 
-		this.$ =$$[$0-2];
+		this.$ =$$[$0-1];
 	
 break;
 case 127:

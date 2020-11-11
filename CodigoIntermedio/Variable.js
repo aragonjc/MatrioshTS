@@ -27,6 +27,7 @@ class Variable {
                     let newTemp = 't'+scope.getNewTemp();
                     let saveTemp = 't'+scope.getNewTemp();
                     newObj.code3d += newTemp + '=P + '+scope.prevSize+';\n';
+                    //sCounter++;
                     newObj.code3d += newTemp + '='+newTemp+' + '+scope.getSize()+';\n';
                     newObj.code3d += saveTemp + '=' + objdef.value.pointer + ';\n';
                     newObj.code3d += 'Stack[(int)'+newTemp+'] = ' + saveTemp + ';\n';
@@ -40,6 +41,7 @@ class Variable {
                     newObj.code3d += saveTemp + '=' + objdef.value.pointer + ';\n';
                     newObj.code3d += 'Stack[(int)'+newTemp+'] = ' + saveTemp + ';\n';
                     newObj.code3d += 'P = P +1;\n';
+                    //sCounter++;
                     scope.insertVariable(this.id,newTemp,type,false,0);
                 }
                 

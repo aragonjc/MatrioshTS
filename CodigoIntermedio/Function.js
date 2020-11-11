@@ -17,6 +17,7 @@ class Function {
         let StackCounter = 0;
 
         const newScope = new Scope(scope,scope.terminal,scope.label);
+        newScope.isFuncScope = true;
         //console.log(this.params);
         let paramsList = [];
         const returnTemp = 't' + newScope.getNewTemp()
@@ -41,7 +42,7 @@ class Function {
         //console.log(scope.funcTable);
 
         stmt.forEach(element => {
-            StatementCod3d += element.translate(newScope,returnLabel,breaklbl,continuelbl,this.id,sCounter).code3d;
+            StatementCod3d += element.translate(newScope,returnLabel,breaklbl,continuelbl,this.id,StackCounter).code3d;
         });
         newTsObject.code3d += StatementCod3d;
         newTsObject.code3d += returnLabel + ':\n';

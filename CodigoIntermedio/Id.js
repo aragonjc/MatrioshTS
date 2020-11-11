@@ -17,6 +17,7 @@ class Id {
         let newTemp = 't'+ scope.getNewTemp();
         newTSObject.code3d += newTemp+' = Stack[(int)' + varRes.pointer + '];\n';
         newTSObject.pointer = newTemp;
+        scope.tempList.push(newTemp);
         
         return newTSObject
     }

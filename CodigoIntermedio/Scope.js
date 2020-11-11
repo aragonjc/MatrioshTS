@@ -8,6 +8,7 @@ class Scope {
         this.funcTable = new Map();
         this.prevSize = 0;
         this.isFuncScope = null;
+        this.tempList = [];
         if(prev != null) {
             this.prevSize = prev.table.size;
         }
@@ -27,6 +28,54 @@ class Scope {
             }
         }
         return null;
+    }
+
+    getFunctionParameters() {
+        let parameters = [];
+
+        var sc= null;
+
+        for(sc = this;sc != null;sc = sc.prev){
+
+            if(sc.isFuncScope) {
+
+                for (let [key, value] of sc.table) {
+                    parameters.push(value.pointer);
+                }
+
+                return parameters;
+            } 
+        }
+
+        return parameters;
+    }
+
+    getVariablesInFunc() {
+        let variables = [];
+
+        var sc= null;
+
+        for(sc = this;sc != null;sc = sc.prev){
+
+            if(sc.isFuncScope) {
+
+                sc.tempList.forEach(val => {
+                    variables.push(val);
+                });
+
+                /*for (let [key, value] of sc.table) {
+                    variables.push(value.pointer);
+                }*/
+
+                break;
+            } else {
+                sc.tempList.forEach(val => {
+                    variables.push(val);
+                });
+            }
+        }
+
+        return variables;
     }
 
     modifyVariable(id,value) {

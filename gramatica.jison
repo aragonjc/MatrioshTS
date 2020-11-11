@@ -263,12 +263,12 @@ FIRSTCASE: CASE {$$=$1;}
 
 CASE: CASE case exp dosPuntos STMT
 	  {
-		  $1.push({exp:$3,stmt:$5});
-		  $$ = $1;
+			$1.push({exp:$3,stmt:$5});
+			$$ = $1;
 	  }
 	 |case exp dosPuntos STMT
 	 {
-		 $$ = [{exp:$2,stmt:$4}]
+			$$ = [{exp:$2,stmt:$4}]
 	 }
 ;
 
@@ -306,12 +306,8 @@ FOR: for bracketOpen let id dosPuntos types igual exp semicolon exp semicolon ex
 ;
 
 
-forOP: in 
-	  |of 
-;
-
-forDec: variables
-	   |id
+forOP: in {$$=$1;}
+	  |of {$$=$1;}
 ;
 
 defVarLast: comma defVarLastP
@@ -325,13 +321,13 @@ variables: defType id defLast defVarLast semicolon
 				$$ = new Variables($1,$2,$3,$4);
 			}
 		  |id asignLast semicolon
-		  {
-			  $$ = new VariableChange($1,$2);
-		  }
+		  	{
+				$$ = new VariableChange($1,$2);
+		  	}
 		  |id asignLast
-		  {
-			  $$ = new VariableChange($1,$2);
-		  }
+		  	{
+				$$ = new VariableChange($1,$2);
+		  	}
 ;
 
 defLast: dosPuntos types igual E
@@ -413,15 +409,15 @@ types: number  typesList
 			$$ = {type:$1,list:$2}
 		}
       |boolean typesList
-	  {
+	  	{
 			$$ = {type:$1,list:$2}
 		}
       |string  typesList
-	  {
+	  	{
 			$$ = {type:$1,list:$2}
 		}
       |void    typesList
-	  {
+	  	{
 			$$ = {type:$1,list:$2}
 		}
       |id      typesList
@@ -514,7 +510,7 @@ exp: exp mas exp
 	}
 	| bracketOpen exp bracketClose
 	{
-		$$ =$1;
+		$$ =$2;
 	}
 	| exp question exp dosPuntos exp
 	| exp increment

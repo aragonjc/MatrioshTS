@@ -26,6 +26,7 @@ class Print {
         this.code3d += printValue.code3d;
         if(printValue.type == 'number') {
             this.code3d += 'printf("%f",' + printValue.pointer + ');\n';
+            this.code3d += 'printf("\\n");\n';
         } else if(printValue.type === 'string') {
 
             let stringPointer = 't'+scope.getNewTemp();

@@ -15,10 +15,16 @@ class Return {
             
             func.returnValue = 0;
             scope.changeFunction(funcID,func)
+            console.log("ESTO ES EN RETURN");
+            console.log(this.value)
+            console.log("%%%%%%%%%%%%%%%%%%%%%")
+
             const rexp = this.value.translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter)
+            
+            
             let newTsObject = new tsObject(0,0,null,null);
             newTsObject.code3d += rexp.code3d;
-            let newTemp = 't'+scope.getNewTemp()
+            //let newTemp = 't'+scope.getNewTemp()
 
             newTsObject.code3d += func.returnTemp + ' = '+rexp.pointer+';\n';
             //newTsObject.code3d += func.returnTemp + '= P;\n';
@@ -28,9 +34,6 @@ class Return {
 
             return newTsObject;
 
-
-            //rexp.pointer
-            //rexp.code3d
 
         } else {
             let newTsObject = new tsObject(0,0,null,null);

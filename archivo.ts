@@ -1,12 +1,13 @@
-function factorial(n:number):number{
-    //console.trace(n);
-    
-    if (n==0){
-        return 1;
+function ackermann( m:number,  n:number):number {
+    if (m == 0) {
+        return (n + 1);
+    } else if (m > 0 && n == 0) {
+         let cuatro:number = ackermann(m - 1, 1);
+        return cuatro;
     } else {
-
-        return n * factorial(n-1);
+        let ret:number =  ackermann(m, n - 1);
+        let  nueva:number = ackermann(m - 1, ret);
+        return nueva;
     }
 }
-let a:number = factorial(3);
-console.log(a);
+console.log(ackermann(3,8));
