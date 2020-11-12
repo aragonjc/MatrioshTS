@@ -6,7 +6,11 @@ class tsObject{
         this.value = value;
         this.type = type;
         this.code3d = '';
-        
+        this.isArray = false;
+        this.isType = false;
+        this.dim = [];
+        this.arrFinal = 0;
+        this.list = [];
         
         //number
         if(this.type == 'number' || this.type == 'boolean')
@@ -17,7 +21,10 @@ class tsObject{
     translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter) {
 
         if(this.type == 'string') {
-            let string = this.value.substring(1,this.value.length-1);
+            if(this.value != null) {
+
+            
+                let string = this.value.substring(1,this.value.length-1);
             
             //if(string.length == 2) {
                 
@@ -47,6 +54,9 @@ class tsObject{
                 let newTemp = 't' + scope.getNewTemp();
                 let newTempCounter = 't' + scope.getNewTemp();
                 this.pointer = newTemp;
+                
+                this.code3d += '\n//////////////////////////////////\n';
+
                 this.code3d += newTemp + '=H;\n';
                 this.code3d += newTempCounter + '=H;\n';
 
@@ -70,7 +80,8 @@ class tsObject{
                 this.code3d += newTempCounter + '='+newTempCounter + '+1;\n';
                 this.code3d += 'H=' + newTempCounter +';\n';
                 this.value = undefined;
-            
+                this.code3d += '\n//////////////////////////////////\n';
+            }
         }
 
         return this;

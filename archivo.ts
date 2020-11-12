@@ -1,1 +1,2 @@
-let a:number[] = new Array(5);
+let a:number[][] = [[1],[2],[3]];
+console.log(a);

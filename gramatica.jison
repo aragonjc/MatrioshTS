@@ -124,6 +124,7 @@
 	const Continue = require('./CodigoIntermedio/Continue.js');
 	const Ternary = require('./CodigoIntermedio/Ternary.js');
 	const Arrayl = require('./CodigoIntermedio/Arrayl.js');
+	const ArrList = require('./CodigoIntermedio/ArrList.js');
 %}
 
 %start S
@@ -348,7 +349,13 @@ asignLast: varLast asignLastF
 ;
 
 varLast: sqBracketOpen exp sqBracketClose  auxP
+		{
+			//$$ = new List(true,$2,$4);
+		}
 		| point id  auxP
+		{
+		//	$$ = new List(false,$2,$4);
+		}
 ;
 		
 auxP:varLast {$$=$1;}
@@ -546,6 +553,9 @@ exp: exp mas exp
 	| null
 	//| undefined
 	| id varLast
+	{
+		$$ = new IdAccess();
+	}
 	| new id bracketOpen exp bracketClose
 	{
 		$$ = new Arrayl($2,$4);
@@ -558,24 +568,27 @@ exp: exp mas exp
 	{
 		$$ = new callFunction($1,$2,$4);
 	}
-	| sqBracketOpen arrParam sqBracketClose sqBCKFIN
+	| sqBracketOpen arrParam sqBracketClose
+	{
+		$$ = new ArrList($2);
+	}
 
-;
-
-sqBCKFIN: sqBckList
-		|
 ;
 
 sqBckList: sqBckList sqBracketOpen arrParam sqBracketClose
 		|sqBracketOpen arrParam sqBracketClose
 		;
 
-arrParam: listArrParam
-		 |
+arrParam: listArrParam {$$ = $1;}
+		 |{$$ = null;}
 ;
 
 listArrParam: listArrParam comma E
-			|E
+			{
+				$1.push($3);
+				$$ = $1;
+			}
+			|E {$$ = [$1];}
 ;
 
 objetoParam: objetoParamList
