@@ -88,10 +88,12 @@ class Scope {
         }
     }
 
-    insertVariable(id,pointer,type,isArray,dim) {
+    insertVariable(id,pointer,type,len,dim) {
         const newVar = {
             pointer:pointer,
-            type:type
+            type:type,
+            dimention:dim,
+            length:len
         }
 
         if(!this.existsLocalVariable(id)) {

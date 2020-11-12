@@ -47,6 +47,48 @@ class Variable {
                 
                 return newObj;
             }
+
+        } else if(valueType == 'Array') {
+            
+            if(objdef.dim == 1) {
+
+                let pointer = 't' + scope.getNewTemp();
+                let index = 't' + scope.getNewTemp();
+                let counterTemp = 't' + scope.getNewTemp();
+                let condTemp = 't' + scope.getNewTemp();
+                let auxTemp = 't'+scope.getNewTemp();
+
+                let labelEntry = 'L' + scope.getNewLabel();
+                //let fillArrayLabel = 'L' + scope.getNewLabel();
+                let exitLabel = 'L'+ scope.getNewLabel();
+
+                let newTsObject = new tsObject(0,0,null,null);
+                newTsObject.code3d += objdef.value.code3d;
+                newTsObject.code3d += pointer +' = H;\n';
+                newTsObject.code3d += index +' = H;\n';
+                newTsObject.code3d += counterTemp + '=0;\n';
+
+                newTsObject.code3d += labelEntry + ':\n';
+                newTsObject.code3d += auxTemp + ' = '+counterTemp+' + 1;\n'
+                newTsObject.code3d += condTemp + '= ' + auxTemp + '=='+objdef.value.pointer + ';\n';
+                newTsObject.code3d += 'if('+condTemp+') goto '+exitLabel+';\n';
+                newTsObject.code3d += 'Heap[(int)'+index+'] = -100;\n';
+                newTsObject.code3d += 'H = H + 1;\n';
+                newTsObject.code3d += index +' = H;\n';
+                newTsObject.code3d += counterTemp + ' = ' + counterTemp + ' + 1;\n';
+                newTsObject.code3d += 'goto '+labelEntry+';\n';
+                newTsObject.code3d += exitLabel + ':\n';
+                //console.log(this.asignType)
+                //id,pointer,type,len,dim
+                scope.insertVariable(this.id,pointer,type,[objdef.value.pointer],objdef.dim);
+                
+                //console.log(objdef); 
+
+                return newTsObject;
+            } else {
+                console.log("Error tamaño incorrecto");
+            }
+
         } else {
             console.log("ERROR los tipos no son igualesP");
         }

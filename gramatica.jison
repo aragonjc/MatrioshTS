@@ -34,6 +34,7 @@
 "false"           return 'false';
 "undefined"       return 'undefined';
 "return"		  return 'return';
+"new"			  return 'new';
 "+="              return 'masIgual';
 "-="              return 'menosIgual';
 "*="              return 'porIgual';
@@ -122,6 +123,7 @@
 	const Break = require('./CodigoIntermedio/Break.js');
 	const Continue = require('./CodigoIntermedio/Continue.js');
 	const Ternary = require('./CodigoIntermedio/Ternary.js');
+	const Arrayl = require('./CodigoIntermedio/Arrayl.js');
 %}
 
 %start S
@@ -544,6 +546,10 @@ exp: exp mas exp
 	| null
 	//| undefined
 	| id varLast
+	| new id bracketOpen exp bracketClose
+	{
+		$$ = new Arrayl($2,$4);
+	}
 	| id
 	{
 		$$ = new Id(0,0,$1);
@@ -553,6 +559,7 @@ exp: exp mas exp
 		$$ = new callFunction($1,$2,$4);
 	}
 	| sqBracketOpen arrParam sqBracketClose sqBCKFIN
+
 ;
 
 sqBCKFIN: sqBckList
