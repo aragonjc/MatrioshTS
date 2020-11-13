@@ -19,8 +19,15 @@ class IdAccess {
             //console.log(r);
             return r;
 
-        } else if(IdRes.isType) {
+        } else if(IdRes.isType) {//puede ser type o una propiedad de arreglo o string
 
+            
+
+        } else if(IdRes.type == 'string') {
+            this.varLast.obj = IdRes;
+            let r = this.varLast.translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter);
+            //console.log(r);
+            return r;
         } else {
             console.log("ERROR");
         }

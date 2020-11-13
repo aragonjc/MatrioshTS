@@ -553,6 +553,9 @@ exp: exp mas exp
 		$$ = new tsObject(0,0,0,'boolean');
 	}
 	| null
+	{
+		$$ = new tsObject(0,0,-100,'null');
+	}
 	//| undefined
 	| id varLast
 	{

@@ -14,7 +14,7 @@ class tsObject{
         this.arrLen = 0;
         
         //number
-        if(this.type == 'number' || this.type == 'boolean')
+        if(this.type == 'number' || this.type == 'boolean' || this.type == 'null')
             this.pointer = this.value;
     }
 

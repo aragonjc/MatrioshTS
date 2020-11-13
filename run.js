@@ -217,9 +217,11 @@ function ejecutar(entrada,consoleT) {
     code += 'float Heap[16384];\n'
     let terminals = 'float t1';
 
-    let Globales = '';
+    let Globales = 'void global_def___default(){\n';
     let Funciones = '';
     let Main = '\n\nvoid main(){\n';
+    Main += 'global_def___default();\n';
+
 
     ast.forEach(element => {
         if(element.constructor.name == "Variable" /*||element.constructor.name == "VariableChange"*/ ) {
@@ -228,6 +230,7 @@ function ejecutar(entrada,consoleT) {
             Globales += r.code3d;
         }
     })
+    Globales += '}\n';
 
     ast.forEach(element => {
         if(element.constructor.name == "Function") {

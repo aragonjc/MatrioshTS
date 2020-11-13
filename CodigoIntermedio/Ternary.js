@@ -18,7 +18,7 @@ class Ternary {
         let exitLabel = 'L'+scope.getNewLabel(); 
         let pointer = 't' + scope.getNewTemp();
 
-        let newTsObject = new tsObject(0,0,null,null);
+        let newTsObject = new tsObject(0,0,null,expTrue.type);
         newTsObject.code3d += cond.code3d;
         newTsObject.code3d += 'if('+cond.pointer+') goto '+tLabel+';\n';
         newTsObject.code3d += 'goto '+fLabel+';\n';

@@ -32,7 +32,9 @@ class Operation {
     add(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter) {
         let newTsObject;
         const obj1 = this.nodeLeft.translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter)
+        
         const obj2 = this.nodeRight.translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter)
+        
         if(obj1.type == 'number' && obj2.type == 'number') {
             this.type = 'number';
         } else if (obj1.type == 'string' && obj2.type == 'string') {
@@ -180,6 +182,7 @@ class Operation {
             newTsObject = new tsObject(0,0,null,this.type);
             newTsObject.code3d += obj1.code3d;
             newTsObject.code3d += obj2.code3d;
+            
             let actualPointer = 't'+scope.getNewTemp();
             let newActualPointer = 't' + scope.getNewTemp();
             let temp = 't' + scope.getNewTemp();

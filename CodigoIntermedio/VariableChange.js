@@ -95,6 +95,7 @@ class VariableChange {
 
                 if(this.asingLast.tipo == '=') {
                     const E = this.asingLast.value.translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter);
+                    console.log(this.asingLast.value);
                     if(variableObj.type == E.type) {
                         
                         let newCod3dObj = new tsObject(0,0,null,null);

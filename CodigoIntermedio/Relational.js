@@ -161,18 +161,64 @@ class Relational {
         else if(obj1.type == 'boolean'&& obj2.type == 'number'){type = 'boolean';}
         else if(obj1.type == 'boolean'&& obj2.type == 'boolean'){type = 'boolean';}
         else if(obj1.type == 'string' && obj2.type == 'string') {
-            type = 'boolean'
-            kind = 'string'
+            type = 'boolean';
+            kind = 'string';
+
+            let newTsObject = new tsObject(0,0,null,type);
+
+            let stringPointer = 't'+scope.getNewTemp();
+            let stringPointer2 = 't'+scope.getNewTemp();
+            
+            //this.code3d += 
+            let stringLabel = 'L'+scope.getNewLabel();
+            let falseLabel = 'L' + scope.getNewLabel();
+            let trueLabel = 'L' + scope.getNewLabel();
+            let endStringLabel = 'L' + scope.getNewLabel();
+            let exitLabel = 'L'+scope.getNewLabel();
+            
+            let temp = 't'+scope.getNewTemp();
+            let temp2 = 't'+scope.getNewTemp();
+
+            let newPointer = 't' + scope.getNewTemp();
+
+            newTsObject.code3d += obj1.code3d;
+            newTsObject.code3d += obj2.code3d;
+            newTsObject.code3d += stringPointer + '=' + obj1.pointer+';\n';
+            newTsObject.code3d += stringPointer2 + '=' + obj2.pointer+';\n';
+            newTsObject.code3d+= stringLabel +':\n';
+            newTsObject.code3d+=temp + '=Heap[(int)'+stringPointer+'];\n';
+            newTsObject.code3d+=temp2 + '=Heap[(int)'+stringPointer2+'];\n';
+            newTsObject.code3d+='if('+temp + '==' +'\0'.charCodeAt(0) + ') goto ' + endStringLabel + ';\n';
+            newTsObject.code3d+= 'if('+temp+'!='+temp2+') goto '+falseLabel+';\n';
+            newTsObject.code3d+= stringPointer + '= '+stringPointer+' +1;\n';
+            newTsObject.code3d+= stringPointer2 + '= '+stringPointer2+' +1;\n';
+            newTsObject.code3d+= 'goto '+stringLabel+';\n';
+
+            newTsObject.code3d+=endStringLabel+':\n';
+            newTsObject.code3d+='if('+temp2 + '==' +'\0'.charCodeAt(0) + ') goto ' + trueLabel + ';\n';
+
+            newTsObject.code3d+=falseLabel+':\n';
+            newTsObject.code3d+=newPointer + '=0;\n';
+            newTsObject.code3d+= 'goto '+exitLabel+';\n';
+
+            newTsObject.code3d+=trueLabel+':\n';
+            newTsObject.code3d+=newPointer + '=1;\n';
+            newTsObject.code3d+= 'goto '+exitLabel+';\n';
+
+            newTsObject.code3d+=exitLabel+':\n\n';
+            newTsObject.pointer = newPointer;
+            return newTsObject;
+
+        } else if(obj1.type == 'string' && obj2.type == 'null') {
+
+        } else if(obj1.type == 'null' && obj2.type == 'string') {
+
         }
         //FALTA NULL Y FALTA ALGUNAS COMPROBACIONES CON CADENAS
 
         else{
             console.log("ERROR tipos");
             return;
-        }
-
-        if(kind == 'string') {
-
         }
 
         //console.log(obj2)
@@ -209,8 +255,54 @@ class Relational {
         else if(obj1.type == 'boolean'&& obj2.type == 'number'){type = 'boolean';}
         else if(obj1.type == 'boolean'&& obj2.type == 'boolean'){type = 'boolean';}
         else if(obj1.type == 'string' && obj2.type == 'string') {
-            type = 'boolean'
-            kind = 'string'
+            type = 'boolean';
+            kind = 'string';
+
+            let newTsObject = new tsObject(0,0,null,type);
+
+            let stringPointer = 't'+scope.getNewTemp();
+            let stringPointer2 = 't'+scope.getNewTemp();
+            
+            //this.code3d += 
+            let stringLabel = 'L'+scope.getNewLabel();
+            let falseLabel = 'L' + scope.getNewLabel();
+            let trueLabel = 'L' + scope.getNewLabel();
+            let endStringLabel = 'L' + scope.getNewLabel();
+            let exitLabel = 'L'+scope.getNewLabel();
+            
+            let temp = 't'+scope.getNewTemp();
+            let temp2 = 't'+scope.getNewTemp();
+
+            let newPointer = 't' + scope.getNewTemp();
+
+            newTsObject.code3d += obj1.code3d;
+            newTsObject.code3d += obj2.code3d;
+            newTsObject.code3d += stringPointer + '=' + obj1.pointer+';\n';
+            newTsObject.code3d += stringPointer2 + '=' + obj2.pointer+';\n';
+            newTsObject.code3d+= stringLabel +':\n';
+            newTsObject.code3d+=temp + '=Heap[(int)'+stringPointer+'];\n';
+            newTsObject.code3d+=temp2 + '=Heap[(int)'+stringPointer2+'];\n';
+            newTsObject.code3d+='if('+temp + '==' +'\0'.charCodeAt(0) + ') goto ' + endStringLabel + ';\n';
+            newTsObject.code3d+= 'if('+temp+'=='+temp2+') goto '+falseLabel+';\n';
+            newTsObject.code3d+= stringPointer + '= '+stringPointer+' +1;\n';
+            newTsObject.code3d+= stringPointer2 + '= '+stringPointer2+' +1;\n';
+            newTsObject.code3d+= 'goto '+stringLabel+';\n';
+
+            newTsObject.code3d+=endStringLabel+':\n';
+            newTsObject.code3d+='if('+temp2 + '==' +'\0'.charCodeAt(0) + ') goto ' + trueLabel + ';\n';
+
+            newTsObject.code3d+=falseLabel+':\n';
+            newTsObject.code3d+=newPointer + '=0;\n';
+            newTsObject.code3d+= 'goto '+exitLabel+';\n';
+
+            newTsObject.code3d+=trueLabel+':\n';
+            newTsObject.code3d+=newPointer + '=1;\n';
+            newTsObject.code3d+= 'goto '+exitLabel+';\n';
+
+            newTsObject.code3d+=exitLabel+':\n\n';
+            newTsObject.pointer = newPointer;
+            return newTsObject;
+
         }
         //FALTA NULL Y FALTA ALGUNAS COMPROBACIONES CON CADENAS
 
