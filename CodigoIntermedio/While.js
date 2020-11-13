@@ -27,7 +27,7 @@ class While {
         newTsObject.code3d += 'if('+E.pointer+') goto '+bodyLabel+';\n'
         newTsObject.code3d += 'goto '+exitLabel+';\n'
         newTsObject.code3d += bodyLabel + ':\n';
-        const newScope = new Scope(scope,scope.terminal,scope.label);
+        let newScope = new Scope(scope,scope.terminal,scope.label);
 
         this.stmt.forEach(element => {
             Statement += element.translate(newScope,returnlbl,exitLabel,entryLabel,funcID,sCounter).code3d;
