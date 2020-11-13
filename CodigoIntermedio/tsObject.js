@@ -11,6 +11,7 @@ class tsObject{
         this.dim = [];
         this.arrFinal = 0;
         this.list = [];
+        this.arrLen = 0;
         
         //number
         if(this.type == 'number' || this.type == 'boolean')

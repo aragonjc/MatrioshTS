@@ -26,7 +26,7 @@ class ArrList {
             let typel = '';
             if(res.isArray) {
                 typel = '-4';
-                newTsObject.list.push({fin:res.arrFinal,tipo:res.type});
+                newTsObject.list.push({fin:res.arrFinal,tipo:res.type,len:res.arrLen,pointer:res.pointer});
             } else if(res.isType) {
                 typel = '-5';
             }else if(res.type == 'number') {
@@ -40,6 +40,10 @@ class ArrList {
             
             
         });
+        newTsObject.arrLen = this.param.length;
+
+        newTsObject.code3d += "//=================ARRLIST==========================\n";
+
         newTsObject.code3d += pointer + '=H;\n';
         newTsObject.code3d += aux + '=H;\n';
         arrs.forEach(element => {
@@ -58,13 +62,15 @@ class ArrList {
         newTsObject.code3d += lastPosition + ' = ' + aux + ';\n';
         newTsObject.arrFinal = lastPosition; 
         newTsObject.type = res.type;
-        let newPointer = 't' + scope.getNewTemp();
+
+        /*let newPointer = 't' + scope.getNewTemp();
         newTsObject.code3d += newPointer + ' = P;\n';
         newTsObject.code3d += 'Stack[(int)'+newPointer+'] = '+pointer+';\n';
         newTsObject.code3d += 'P = P + 1;\n';
-        newTsObject.pointer = newPointer;
+        newTsObject.pointer = newPointer;*/
+        newTsObject.pointer = pointer;
         
-
+        newTsObject.code3d += "//===========================================\n";
         return newTsObject;
 
     }

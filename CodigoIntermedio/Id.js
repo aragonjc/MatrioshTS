@@ -20,14 +20,17 @@ class Id {
             let pointer = 't' + scope.getNewTemp();
 
             newTSObject.isArray = true;
+            newTSObject.code3d += "//-----------------ID-------------------------\n";
             newTSObject.code3d += newTemp+' = ' + varRes.pointer + ';\n';
             newTSObject.code3d += pointer + '=Stack[(int)' + newTemp + '];\n';
+            //newTSObject.code3d += pointer + '=Stack[(int)' + pointer + '];\n';
             newTSObject.pointer = pointer;
             newTSObject.list = varRes.length.list;
             newTSObject.arrFinal = varRes.length.arrFinal;
+            newTSObject.arrLen = varRes.length.len
             scope.tempList.push(newTemp);
-            console.log(newTSObject);
-
+            //console.log(newTSObject);
+            newTSObject.code3d += "//------------------------------------------\n";
         } else {
             let newTemp = 't'+ scope.getNewTemp();
             newTSObject.code3d += newTemp+' = Stack[(int)' + varRes.pointer + '];\n';

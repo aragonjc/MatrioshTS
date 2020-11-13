@@ -22,7 +22,7 @@ class Print {
             
             return;
         }
-
+        //console.log(printValue)
         this.code3d += printValue.code3d;
         if(printValue.isArray) {
 
@@ -48,7 +48,8 @@ class Print {
             let commaLabel = 'L' + scope.getNewLabel();
 
             this.code3d += 'printf("[");\n';
-            this.code3d += counterTemp + ' = Stack[(int)' + printValue.pointer + '];\n';
+            //this.code3d += counterTemp + ' = Stack[(int)' + printValue.pointer + '];\n';
+            this.code3d += counterTemp + ' ='+ printValue.pointer + ';\n';
             this.code3d += finalPosition + ' = '+printValue.arrFinal+';\n';
             this.code3d += countCommaTemp + '=0;\n';
 
@@ -119,9 +120,10 @@ class Print {
                         this.code3d += 'printf(",");\n';
                     }
                     list = val;
-                    console.log(list);
+                    //console.log(list);
                     this.code3d += counterTemp + ' = ' + counterTemp + ' + 1;\n';
                     this.code3d += auxTemp + '=Heap[(int)'+counterTemp+'];\n'//puntero
+                    //this.code3d += auxTemp + '=Stack[(int)'+auxTemp+'];\n'//puntero
                     newObj = new tsObject(0,0,null,list.tipo);
                     newObj.pointer = auxTemp;
                     newObj.arrFinal = list.fin;

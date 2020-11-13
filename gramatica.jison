@@ -125,6 +125,8 @@
 	const Ternary = require('./CodigoIntermedio/Ternary.js');
 	const Arrayl = require('./CodigoIntermedio/Arrayl.js');
 	const ArrList = require('./CodigoIntermedio/ArrList.js');
+	const IdAccess = require('./CodigoIntermedio/IdAccess.js');
+	const List = require('./CodigoIntermedio/List.js');
 %}
 
 %start S
@@ -344,17 +346,17 @@ defLast: dosPuntos types igual E
 		}
 ;
 
-asignLast: varLast asignLastF
+asignLast: varLast asignLastF  { $$={varLast:$1,asignLastF:$2,temp:true}; }
 		 | asignLastF {$$ = $1;}
 ;
 
 varLast: sqBracketOpen exp sqBracketClose  auxP
 		{
-			//$$ = new List(true,$2,$4);
+			$$ = new List(true,$2,$4);
 		}
 		| point id  auxP
 		{
-		//	$$ = new List(false,$2,$4);
+			$$ = new List(false,$2,$3);
 		}
 ;
 		
@@ -554,7 +556,7 @@ exp: exp mas exp
 	//| undefined
 	| id varLast
 	{
-		$$ = new IdAccess();
+		$$ = new IdAccess($1,$2);
 	}
 	| new id bracketOpen exp bracketClose
 	{

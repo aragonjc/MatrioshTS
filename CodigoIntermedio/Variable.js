@@ -59,7 +59,7 @@ class Variable {
                     newObj.code3d += saveTemp + '=' + objdef.value.pointer + ';\n';
                     newObj.code3d += 'Stack[(int)'+newTemp+'] = ' + saveTemp + ';\n';
                     //newObj.code3d += 'P = P +1;\n';
-                    scope.insertVariable(this.id,newTemp,type,{list:objdef.value.list,arrFinal:objdef.value.arrFinal},objdef.dim);
+                    scope.insertVariable(this.id,newTemp,type,{list:objdef.value.list,arrFinal:objdef.value.arrFinal,len:objdef.value.arrLen,pointer:objdef.value.pointer},objdef.dim);
                 } else {
                     newObj.code3d += objdef.value.code3d;
                     let newTemp = 't'+scope.getNewTemp();
@@ -69,7 +69,7 @@ class Variable {
                     newObj.code3d += 'Stack[(int)'+newTemp+'] = ' + saveTemp + ';\n';
                     newObj.code3d += 'P = P +1;\n';
                     //sCounter++;
-                    scope.insertVariable(this.id,newTemp,type,{list:objdef.value.list,arrFinal:objdef.value.arrFinal},objdef.dim);
+                    scope.insertVariable(this.id,newTemp,type,{list:objdef.value.list,arrFinal:objdef.value.arrFinal,len:objdef.value.arrLen,pointer:objdef.value.pointer},objdef.dim);
                 }
                 
                 return newObj;
