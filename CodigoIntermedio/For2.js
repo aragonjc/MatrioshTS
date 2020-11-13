@@ -25,6 +25,7 @@ class For2 {
             let lbody = 'L' + scope.getNewLabel()
             let LExit = 'L' + scope.getNewLabel()
             let tempStack = 't' + scope.getNewTemp();
+            let CONTINUELABEL = 'L'+scope.getNewLabel();
 
             let newTsObject = new tsObject(0,0,null,null);
             
@@ -48,13 +49,13 @@ class For2 {
             
             let Statement = '';
             this.stmt.forEach(element => {
-                Statement += element.translate(newScope,returnlbl,breaklbl,continuelbl,funcID,sCounter).code3d;
+                Statement += element.translate(newScope,returnlbl,LExit,CONTINUELABEL,funcID,sCounter).code3d;
             });
             newTsObject.code3d += Statement;
             scope.terminal = newScope.terminal;
             scope.label = newScope.label;
             let iter = this.iterate.translate(scope,returnlbl,breaklbl,continuelbl,funcID,sCounter);
-            
+            newTsObject.code3d += CONTINUELABEL + ':\n';
             newTsObject.code3d += iter.code3d;
             newTsObject.code3d += 'goto '+Lloop+';\n';
             newTsObject.code3d += LExit + ':\n\n';
