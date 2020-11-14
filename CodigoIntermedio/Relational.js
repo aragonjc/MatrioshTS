@@ -344,7 +344,7 @@ class Relational {
                 return newTSObject;
             }
         } 
-        //FALTA NULL Y FALTA ALGUNAS COMPROBACIONES CON CADENAS
+        
 
         else{
             console.log("ERROR tipos");
@@ -381,6 +381,51 @@ class Relational {
             return;
         }      
         
+        if(obj1.isArray && obj2.type == 'null') {
+            type = 'boolean';
+            let newTSObject = new tsObject(0,0,null,type);
+                newTSObject.code3d += obj1.code3d;
+                newTSObject.code3d += obj2.code3d;
+                let newTemp = 't' + scope.getNewTemp()
+                let stringPointer = 't' + scope.getNewTemp();
+                let lbl1 = 'L' + scope.getNewLabel()
+                let lbl2 = 'L' + scope.getNewLabel()
+                
+                newTSObject.code3d += stringPointer + '=Heap[(int)'+obj1.pointer+'];\n';
+                newTSObject.code3d += 'if(' + stringPointer + '!=' + obj2.pointer+') goto '+lbl1+';\n'
+                newTSObject.code3d += newTemp + '=0;\n';
+                newTSObject.code3d += 'goto '+lbl2+';\n';
+                newTSObject.code3d += lbl1 +':\n';
+                newTSObject.code3d += newTemp + '=1;\n';
+                newTSObject.code3d += 'goto '+lbl2+';\n';
+                newTSObject.code3d += lbl2 +':\n\n\n';
+                newTSObject.pointer = newTemp;
+                
+                return newTSObject;
+        } else if(obj2.isArray && obj1.type == 'null') {
+            type = 'boolean';
+            let newTSObject = new tsObject(0,0,null,type);
+                newTSObject.code3d += obj1.code3d;
+                newTSObject.code3d += obj2.code3d;
+                let newTemp = 't' + scope.getNewTemp()
+                let stringPointer = 't' + scope.getNewTemp();
+                let lbl1 = 'L' + scope.getNewLabel()
+                let lbl2 = 'L' + scope.getNewLabel()
+                
+                newTSObject.code3d += stringPointer + '=Heap[(int)'+obj2.pointer+'];\n';
+                newTSObject.code3d += 'if(' + stringPointer + '!=' + obj1.pointer+') goto '+lbl1+';\n'
+                newTSObject.code3d += newTemp + '=0;\n';
+                newTSObject.code3d += 'goto '+lbl2+';\n';
+                newTSObject.code3d += lbl1 +':\n';
+                newTSObject.code3d += newTemp + '=1;\n';
+                newTSObject.code3d += 'goto '+lbl2+';\n';
+                newTSObject.code3d += lbl2 +':\n\n\n';
+                newTSObject.pointer = newTemp;
+                
+                return newTSObject;
+        }
+
+
         if(obj1.type == 'number'&& obj2.type == 'number'){type = 'boolean';}
         else if(obj1.type == 'number'&& obj2.type == 'boolean'){type = 'boolean';}
         else if(obj1.type == 'boolean'&& obj2.type == 'number'){type = 'boolean';}
@@ -434,7 +479,97 @@ class Relational {
             newTsObject.pointer = newPointer;
             return newTsObject;
 
-        }
+        } else if(obj1.type == 'string' && obj2.type == 'null') {
+            type = 'boolean'
+            
+            if(obj1.isArray) {
+
+                let newTSObject = new tsObject(0,0,null,type);
+                newTSObject.code3d += obj1.code3d;
+                newTSObject.code3d += obj2.code3d;
+                let newTemp = 't' + scope.getNewTemp()
+                let stringPointer = 't' + scope.getNewTemp();
+                let lbl1 = 'L' + scope.getNewLabel()
+                let lbl2 = 'L' + scope.getNewLabel()
+                
+                newTSObject.code3d += stringPointer + '=Heap[(int)'+obj1.pointer+'];\n';
+                newTSObject.code3d += 'if(' + stringPointer + '!=' + obj2.pointer+') goto '+lbl1+';\n'
+                newTSObject.code3d += newTemp + '=0;\n';
+                newTSObject.code3d += 'goto '+lbl2+';\n';
+                newTSObject.code3d += lbl1 +':\n';
+                newTSObject.code3d += newTemp + '=1;\n';
+                newTSObject.code3d += 'goto '+lbl2+';\n';
+                newTSObject.code3d += lbl2 +':\n\n\n';
+                newTSObject.pointer = newTemp;
+                
+                return newTSObject;
+
+            } else {
+
+                let newTSObject = new tsObject(0,0,null,type);
+                newTSObject.code3d += obj1.code3d;
+                newTSObject.code3d += obj2.code3d;
+                let newTemp = 't' + scope.getNewTemp()
+                let stringPointer = 't' + scope.getNewTemp();
+                let lbl1 = 'L' + scope.getNewLabel()
+                let lbl2 = 'L' + scope.getNewLabel()
+                //newTSObject.code3d += stringPointer + '=Heap[(int)'+obj1.pointer+'];\n';
+                newTSObject.code3d += 'if(' + obj1.pointer + '!=' + obj2.pointer+') goto '+lbl1+';\n'
+                newTSObject.code3d += newTemp + '=0;\n';
+                newTSObject.code3d += 'goto '+lbl2+';\n';
+                newTSObject.code3d += lbl1 +':\n';
+                newTSObject.code3d += newTemp + '=1;\n';
+                newTSObject.code3d += 'goto '+lbl2+';\n';
+                newTSObject.code3d += lbl2 +':\n\n\n';
+                newTSObject.pointer = newTemp;
+                
+                return newTSObject;
+            }
+
+        } else if(obj1.type == 'null' && obj2.type == 'string') {
+            type = 'boolean'
+            if(obj2.isArray) {
+                let newTSObject = new tsObject(0,0,null,type);
+                newTSObject.code3d += obj1.code3d;
+                newTSObject.code3d += obj2.code3d;
+                let newTemp = 't' + scope.getNewTemp()
+                let stringPointer = 't' + scope.getNewTemp();
+                let lbl1 = 'L' + scope.getNewLabel()
+                let lbl2 = 'L' + scope.getNewLabel()
+                
+                newTSObject.code3d += stringPointer + '=Heap[(int)'+obj2.pointer+'];\n';
+                newTSObject.code3d += 'if(' + stringPointer + '!=' + obj1.pointer+') goto '+lbl1+';\n'
+                newTSObject.code3d += newTemp + '=0;\n';
+                newTSObject.code3d += 'goto '+lbl2+';\n';
+                newTSObject.code3d += lbl1 +':\n';
+                newTSObject.code3d += newTemp + '=1;\n';
+                newTSObject.code3d += 'goto '+lbl2+';\n';
+                newTSObject.code3d += lbl2 +':\n\n\n';
+                newTSObject.pointer = newTemp;
+                
+                return newTSObject;
+            } else {
+
+                let newTSObject = new tsObject(0,0,null,type);
+                newTSObject.code3d += obj1.code3d;
+                newTSObject.code3d += obj2.code3d;
+                let newTemp = 't' + scope.getNewTemp()
+                let stringPointer = 't' + scope.getNewTemp();
+                let lbl1 = 'L' + scope.getNewLabel()
+                let lbl2 = 'L' + scope.getNewLabel()
+                //newTSObject.code3d += stringPointer + '=Heap[(int)'+obj1.pointer+'];\n';
+                newTSObject.code3d += 'if(' + obj1.pointer + '!=' + obj2.pointer+') goto '+lbl1+';\n'
+                newTSObject.code3d += newTemp + '=0;\n';
+                newTSObject.code3d += 'goto '+lbl2+';\n';
+                newTSObject.code3d += lbl1 +':\n';
+                newTSObject.code3d += newTemp + '=1;\n';
+                newTSObject.code3d += 'goto '+lbl2+';\n';
+                newTSObject.code3d += lbl2 +':\n\n\n';
+                newTSObject.pointer = newTemp;
+                
+                return newTSObject;
+            }
+        } 
         //FALTA NULL Y FALTA ALGUNAS COMPROBACIONES CON CADENAS
 
         else{
