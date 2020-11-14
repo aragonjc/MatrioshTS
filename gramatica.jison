@@ -127,6 +127,7 @@
 	const ArrList = require('./CodigoIntermedio/ArrList.js');
 	const IdAccess = require('./CodigoIntermedio/IdAccess.js');
 	const List = require('./CodigoIntermedio/List.js');
+	const ForIO = require('./CodigoIntermedio/ForIO.js');
 %}
 
 %start S
@@ -308,12 +309,15 @@ FOR: for bracketOpen let id dosPuntos types igual exp semicolon exp semicolon ex
 		$$ = new ForThree($3,$5,$7,$10);
 	}
 	|for bracketOpen let id forOP exp bracketClose curlyBraceOpen STMT curlyBraceClose
+	{
+		$$ = new ForIO($4,$5,$6,$9);
+	}
 	|for bracketOpen exp forOP exp bracketClose curlyBraceOpen STMT curlyBraceClose
 ;
 
 
-forOP: in {$$=$1;}
-	  |of {$$=$1;}
+forOP: in {$$=1;}
+	  |of {$$=2;}
 ;
 
 defVarLast: comma defVarLastP

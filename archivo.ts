@@ -1,3 +1,5 @@
-let a:string = 'cadena 1 ';
-let b:string = 'cadena 2';
-console.log(a.Concat(b));
+let a:number[] = [4,6,7];
+
+for(let i of a) {
+    console.log(i);
+}
