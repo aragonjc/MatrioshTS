@@ -1,5 +1,1 @@
-let a:number[] = [4,6,7];
-
-for(let i of a) {
-    console.log(i);
-}
+let a:number[] = new Array(5);

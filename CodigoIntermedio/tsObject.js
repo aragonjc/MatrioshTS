@@ -12,7 +12,10 @@ class tsObject{
         this.arrFinal = 0;
         this.list = [];
         this.arrLen = 0;
+        this.isNull = false;
         
+        if(this.type == 'null')
+            this.isNull == true;
         //number
         if(this.type == 'number' || this.type == 'boolean' || this.type == 'null')
             this.pointer = this.value;
