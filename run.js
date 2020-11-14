@@ -1,7 +1,7 @@
 const parser = require('./gramatica');
 const Scope = require('./CodigoIntermedio/Scope');
 //const translate = require('./EjecutarTraductor');
-//const parserAST = require('./AST.js');
+const parserAST = require('./astGraph.js');
 
 let scope = null;
 let tablaErrores = null;
@@ -180,11 +180,11 @@ function getStrObj(obj,tab) {
     return str;
 }
 
-/*function AST(entrada) {
+function AST(entrada) {
     let ast = parserAST.parse(entrada.toString());
-    console.log(ast)
+    
     return ast.code;
-}*/
+}
 
 function ejecutar(entrada,consoleT) {
 
