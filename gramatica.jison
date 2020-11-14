@@ -146,19 +146,19 @@ S: Bloque EOF
 
 Bloque: Bloque Instruccion { $1.push($2); $$=$1;}
 	| Instruccion { $$ = [$1]; } 
-	/*|error semicolon
+	|error semicolon
 	{
 		tablaErrores.push({line:@1.first_line,column:@1.first_column,type:'Semantico',msg:'El caracter: ' + yytext + " no se esperaba"})
 	}
 	|error curlyBraceClose
 	{
 		tablaErrores.push({line:@1.first_line,column:@1.first_column,type:'Semantico',msg:'El caracter: ' + yytext + " no se esperaba"})
-	}*/
+	}
 ;
 
 Instruccion: llamadaFuncion { $$ = $1; }
             |variables { $$=$1; }
-            |Type id igual curlyBraceOpen parsObj curlyBraceClose semicolon/*; o no*/
+            |Type id igual curlyBraceOpen parsObj curlyBraceClose semicolon/*; o no*/ {$$=null;}
 			|funciones { $$=$1; }
 			|IF { $$ =$1; }
 			|WHILE {$$ =$1;}
