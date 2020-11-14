@@ -53,26 +53,27 @@ $(document).ready(function(){
         if(scope != null) {
 
             var tab = scope.getTable();
-            var type = scope.getTypesTable();
+            //var type = scope.getTypesTable();
             var func = scope.getFunctionTable();
 
-            
+            //console.log(func);
             var str = "<h2>Variables</h2>\n";
             str += "<table>\n"
             str += "<tr>\n" +
                    "<th>Nombre</th>\n"+
                    "<th>Tipo</th>\n" +
-                   "<th>Valor</th>\n" +
+                   "<th>Temporal</th>\n" +
                    "<th>Ambito</th>\n" +
                    "</tr>\n";
             for(let obj of tab) {
                 str += "<tr>\n"
                 str += "<th>" + obj[0] + "</th>\n";
                 str += "<th>" + obj[1].type + "</th>\n";
-                str += "<th>" + getValue(obj[1]) + "</th>\n";
+                str += "<th>" + obj[1].pointer + "</th>\n";
                 str += "<th>1</th>";
             }
             str += "</table>\n";
+
             str += "<h2>Funciones</h2>\n";
             str += "<table>\n"
             str += "<tr>\n" +
@@ -87,6 +88,7 @@ $(document).ready(function(){
                 str += "<th>1</th>";
             }
             str += "</table>\n";
+            /*
             str += "<h2>Types</h2>\n";
             str += "<table>\n"
             str += "<tr>\n" +
@@ -99,7 +101,7 @@ $(document).ready(function(){
                // str += "<th>" + obj[1].type + "</th>\n";
                 //str += "<th>1</th>";
             }
-            str += "</table>\n";
+            str += "</table>\n";*/
             table.innerHTML = str;
         }
     }
@@ -198,7 +200,7 @@ function ejecutar(entrada,consoleT,editor_translate) {
 
     //scope = new Scope(null);
 
-    consoleT.value = "";
+  
 
     /*tablaErrores = ast.tabla;
     ast = ast.ast;
@@ -249,7 +251,7 @@ function ejecutar(entrada,consoleT,editor_translate) {
     Main += 'return;\n}';
 
 
-    for(let i = 1;i<Scope.terminal;i++){
+    for(let i = 1;i<scope.terminal;i++){
     terminals +=  ',t'+(i+1);
     }
     terminals += ';\n\n';

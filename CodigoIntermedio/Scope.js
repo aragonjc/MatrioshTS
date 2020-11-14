@@ -146,6 +146,14 @@ class Scope {
         return this.table.has(id);
     }
 
+    getTable() {
+        return this.table;
+    }
+
+    getFunctionTable() {
+        return this.funcTable;
+    }
+
     getNewTemp() {
         this.terminal++;
         return this.terminal;
