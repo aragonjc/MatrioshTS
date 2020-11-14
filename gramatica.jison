@@ -1,4 +1,5 @@
 %{
+	let tablaErrores = [];	
 %}
 %lex
 
@@ -85,7 +86,11 @@
 
 <<EOF>>                 return 'EOF';
 
-.                       { console.error('Este es un error léxico: ' + yytext + ', en la linea: ' + yylloc.first_line + ', en la columna: ' + yylloc.first_column); }
+.                       { 
+							console.error('Este es un error léxico: ' + yytext + ', en la linea: ' + yylloc.first_line + ', en la columna: ' + yylloc.first_column);
+							tablaErrores.push({line:yylloc.first_line, column:yylloc.first_column, type:'Lexico',msg:'El caracter: ' + yytext + " no se esperaba"})
+	
+						}
 /lex
 
 %right 'question'
@@ -128,6 +133,7 @@
 	const IdAccess = require('./CodigoIntermedio/IdAccess.js');
 	const List = require('./CodigoIntermedio/List.js');
 	const ForIO = require('./CodigoIntermedio/ForIO.js');
+	
 %}
 
 %start S
@@ -135,11 +141,19 @@
 %% /*Gramática*/
 
 S: Bloque EOF
-{ return $1; }
+{ return {ast:$1,tabla:tablaErrores}; }
 ;
 
 Bloque: Bloque Instruccion { $1.push($2); $$=$1;}
 	| Instruccion { $$ = [$1]; } 
+	/*|error semicolon
+	{
+		tablaErrores.push({line:@1.first_line,column:@1.first_column,type:'Semantico',msg:'El caracter: ' + yytext + " no se esperaba"})
+	}
+	|error curlyBraceClose
+	{
+		tablaErrores.push({line:@1.first_line,column:@1.first_column,type:'Semantico',msg:'El caracter: ' + yytext + " no se esperaba"})
+	}*/
 ;
 
 Instruccion: llamadaFuncion { $$ = $1; }

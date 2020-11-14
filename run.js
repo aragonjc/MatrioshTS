@@ -4,7 +4,7 @@ const Scope = require('./CodigoIntermedio/Scope');
 const parserAST = require('./astGraph.js');
 
 let scope = null;
-let tablaErrores = null;
+var tablaErrores = null;
 //const mermaid = require('mermaid');
 //const chalk = require('chalk');
 
@@ -195,22 +195,42 @@ function ejecutar(entrada,consoleT,editor_translate) {
     parser.tablaErrores = [];
 
     
-
-    tablaErrores = null;
-
-    //scope = new Scope(null);
-
-  
-
-    /*tablaErrores = ast.tabla;
-    ast = ast.ast;
-    var ts = document.getElementById("table");
-    ts.innerHTML = "";*/
-
-
-
     scope = new Scope(null,0,0);
     let ast = parser.parse(entrada.toString());
+    
+    tablaErrores = null;
+    tablaErrores = ast.tabla;
+    ast = ast.ast;
+    var ts = document.getElementById("table");
+    ts.innerHTML = "";
+    console.log(tablaErrores);
+
+    if(tablaErrores.length > 0) {
+        var str_ = "<table>\n";
+        str_ += "<tr>\n" +
+                       "<th>Linea</th>\n"+
+                       "<th>Columna</th>\n" +
+                       "<th>Tipo</th>\n" +
+                       "<th>Mensaje</th>\n" +
+                       "</tr>\n";
+        tablaErrores.forEach(element => {
+            str_ += "<tr>\n" +
+                       "<th>"+element.line+"</th>\n"+
+                       "<th>"+element.column+"</th>\n" +
+                       "<th>"+element.type+"</th>\n" +
+                       "<th>"+element.msg+"</th>\n" +
+                       "</tr>\n";
+    
+        });
+        str_ += "</table>\n";
+        ts.innerHTML = str_;
+        while(tablaErrores.length != 0) {
+            tablaErrores.pop()
+        }
+        //return;
+        consoleT.value = str;
+    }
+
     let code = '';
     code += '#include <stdio.h>\n\n';
     code += 'float P = 0;\n';
