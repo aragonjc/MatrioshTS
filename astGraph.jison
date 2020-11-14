@@ -792,7 +792,7 @@ asignLastF:  igual E
 			}	
 			|decrement
 			{
-				$$={value:[$1]}
+				$$={value:["'--'"]}
 			}
 ;
 
@@ -907,7 +907,7 @@ exp:  exp mas exp
 	| exp menos exp
 	{ 
 		contador++;
-		var e =  ast.Node(contador,"'-''",$1,$3);
+		var e =  ast.Node(contador,"'-'",$1,$3);
 		contador++;
 		$$ = ast.Node(contador,"exp",e,null)
 	}

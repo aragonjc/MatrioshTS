@@ -706,9 +706,14 @@ case 77: case 78: case 79: case 80: case 81:
 				this.$ = {value:[$$[$0-1],$$[$0]]}
 			
 break;
-case 82: case 83:
+case 82:
 
 				this.$={value:[$$[$0]]}
+			
+break;
+case 83:
+
+				this.$={value:["'--'"]}
 			
 break;
 case 86:
@@ -806,7 +811,7 @@ break;
 case 108:
  
 		contador++;
-		var e =  ast.Node(contador,"'-''",$$[$0-2],$$[$0]);
+		var e =  ast.Node(contador,"'-'",$$[$0-2],$$[$0]);
 		contador++;
 		this.$ = ast.Node(contador,"exp",e,null)
 	
