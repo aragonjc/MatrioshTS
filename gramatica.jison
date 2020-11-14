@@ -146,19 +146,23 @@ S: Bloque EOF
 
 Bloque: Bloque Instruccion { $1.push($2); $$=$1;}
 	| Instruccion { $$ = [$1]; } 
-	|error semicolon
+	/*|error semicolon
 	{
-		tablaErrores.push({line:@1.first_line,column:@1.first_column,type:'Semantico',msg:'El caracter: ' + yytext + " no se esperaba"})
+		//tablaErrores.push({line:@1.first_line,column:@1.first_column,type:'Semantico',msg:'El caracter: ' + yytext + " no se esperaba"})
+		tablaErrores.push(9);
+		$$ = null;
 	}
 	|error curlyBraceClose
 	{
-		tablaErrores.push({line:@1.first_line,column:@1.first_column,type:'Semantico',msg:'El caracter: ' + yytext + " no se esperaba"})
-	}
+		//tablaErrores.push({line:@1.first_line,column:@1.first_column,type:'Semantico',msg:'El caracter: ' + yytext + " no se esperaba"})
+		tablaErrores.push(9);
+		$$=null;
+	}*/
 ;
 
 Instruccion: llamadaFuncion { $$ = $1; }
             |variables { $$=$1; }
-            |Type id igual curlyBraceOpen parsObj curlyBraceClose semicolon/*; o no*/ {$$=null;}
+            //|Type id igual curlyBraceOpen parsObj curlyBraceClose semicolon/*; o no*/ {$$=null;}
 			|funciones { $$=$1; }
 			|IF { $$ =$1; }
 			|WHILE {$$ =$1;}
@@ -326,7 +330,7 @@ FOR: for bracketOpen let id dosPuntos types igual exp semicolon exp semicolon ex
 	{
 		$$ = new ForIO($4,$5,$6,$9);
 	}
-	|for bracketOpen exp forOP exp bracketClose curlyBraceOpen STMT curlyBraceClose
+	//|for bracketOpen exp forOP exp bracketClose curlyBraceOpen STMT curlyBraceClose
 ;
 
 
@@ -598,9 +602,7 @@ exp: exp mas exp
 
 ;
 
-sqBckList: sqBckList sqBracketOpen arrParam sqBracketClose
-		|sqBracketOpen arrParam sqBracketClose
-		;
+
 
 arrParam: listArrParam {$$ = $1;}
 		 |{$$ = null;}
