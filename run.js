@@ -28,7 +28,7 @@ $(document).ready(function(){
     document.getElementById("ejecutar").onclick = function() {
         let entrada = editor.getValue();
         consoleT.value = "";
-       ejecutar(entrada,consoleT);
+       ejecutar(entrada,consoleT,editor_translate);
     }
     document.getElementById("Arbol").onclick = function() {
         let entrada = editor.getValue();
@@ -186,7 +186,7 @@ function AST(entrada) {
     return ast.code;
 }
 
-function ejecutar(entrada,consoleT) {
+function ejecutar(entrada,consoleT,editor_translate) {
 
     //console.log(console);
     
@@ -254,7 +254,8 @@ function ejecutar(entrada,consoleT) {
     }
     terminals += ';\n\n';
     let resultado = code +  terminals + Globales + Funciones + Main;
-    consoleT.value = resultado;
+    //consoleT.value = resultado;
+    editor_translate.getDoc().setValue(resultado);
 }
 
 function check(element) {
