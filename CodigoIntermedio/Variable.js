@@ -44,7 +44,7 @@ class Variable {
                 
                 return newObj;
             } else {
-                
+
             }
 
         } else if(type == valueType) {
@@ -148,11 +148,13 @@ class Variable {
 
                     let newTemp = 't'+scope.getNewTemp();
                     let saveTemp = 't'+scope.getNewTemp();
-                    newObj.code3d += newTemp + '=P + '+scope.prevSize+';\n';
-                    newObj.code3d += newTemp + '='+newTemp+' + '+scope.getSize()+';\n';
+                    newTsObject.code3d += '////////////new ARRAY///////////\n';
+                    newTsObject.code3d += newTemp + '=P + '+scope.prevSize+';\n';
+                    newTsObject.code3d += newTemp + '='+newTemp+' + '+scope.getSize()+';\n';
                     
-                    newObj.code3d += saveTemp + '=' + pointer + ';\n';
-                    newObj.code3d += 'Stack[(int)'+newTemp+'] = ' + saveTemp + ';\n';
+                    newTsObject.code3d += saveTemp + '=' + pointer + ';\n';
+                    newTsObject.code3d += 'Stack[(int)'+newTemp+'] = ' + saveTemp + ';\n';
+                    newTsObject.code3d += '/////////////FIN new ARRAY//////////\n';
 
                     scope.insertVariable(this.id,newTemp,type,{list:[],arrFinal:arrFinal,len:objdef.value.pointer,pointer:pointer},objdef.dim);
                     
@@ -160,10 +162,12 @@ class Variable {
                     
                     let newTemp = 't'+scope.getNewTemp();
                     let saveTemp = 't'+scope.getNewTemp();
-                    newObj.code3d += newTemp + '=P;\n';
-                    newObj.code3d += saveTemp + '=' + pointer + ';\n';
-                    newObj.code3d += 'Stack[(int)'+newTemp+'] = ' + saveTemp + ';\n';
-                    newObj.code3d += 'P = P +1;\n';
+                    newTsObject.code3d += '//////////////new ARRAY/////////\n';
+                    newTsObject.code3d += newTemp + '=P;\n';
+                    newTsObject.code3d += saveTemp + '=' + pointer + ';\n';
+                    newTsObject.code3d += 'Stack[(int)'+newTemp+'] = ' + saveTemp + ';\n';
+                    newTsObject.code3d += 'P = P +1;\n';
+                    newTsObject.code3d += '/////////////FIN new ARRAY//////////\n';
                     //newObj.pointer = newTemp;
                     scope.insertVariable(this.id,newTemp,type,{list:[],arrFinal:arrFinal,len:objdef.value.pointer,pointer:pointer},objdef.dim);
                 
